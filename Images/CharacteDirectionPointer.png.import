@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfxg5kh4gicin"
-path="res://.godot/imported/Submarine quick edit.png-2f9d84a9b28cf908788bc4bd13e95935.ctex"
+uid="uid://bobfar5up540k"
+path="res://.godot/imported/CharacteDirectionPointer.png-0f297d1ce8c5127e59ad58fd8b1ce504.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Submarine quick edit.png"
-dest_files=["res://.godot/imported/Submarine quick edit.png-2f9d84a9b28cf908788bc4bd13e95935.ctex"]
+source_file="res://Images/CharacteDirectionPointer.png"
+dest_files=["res://.godot/imported/CharacteDirectionPointer.png-0f297d1ce8c5127e59ad58fd8b1ce504.ctex"]
 
 [params]
 

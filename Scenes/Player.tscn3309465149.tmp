@@ -26,5 +26,3 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_kyqiw")
 offset = Vector2(-1.36, -207.79)
 script = ExtResource("3_gntrk")
-
-[connection signal="direction_facing_Changed" from="DirectionalPointer" to="." method="_on_directional_pointer_direction_facing_changed"]
