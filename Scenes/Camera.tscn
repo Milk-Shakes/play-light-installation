@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://358urckctii5"]
+
+[node name="Camera2D" type="Camera2D" unique_id=1068830333]
+editor_description = "Camera for sonar effect"
+zoom = Vector2(1.5, 1.5)
