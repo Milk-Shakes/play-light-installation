@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://358urckctii5"]
 
 [ext_resource type="Script" uid="uid://d26lq2rq5x7li" path="res://Scenes/gpu_particles_2d.gd" id="1_yqtc1"]
-[ext_resource type="Texture2D" uid="uid://cc14cjm3pwull" path="res://icon.svg" id="2_na4qu"]
 
 [sub_resource type="Shader" id="Shader_4v6cc"]
 code = "shader_type particles;
@@ -32,6 +31,14 @@ colors = PackedColorArray(0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_yqtc1"]
 gradient = SubResource("Gradient_4v6cc")
 
+[sub_resource type="Curve" id="Curve_yqtc1"]
+_limits = [0.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.9932432, 76.404495), 158.73335, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_na4qu"]
+curve = SubResource("Curve_yqtc1")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4v6cc"]
 particle_flag_disable_z = true
 emission_shape_scale = Vector3(0, 0, 0)
@@ -39,18 +46,21 @@ emission_shape = 2
 emission_sphere_radius = 3.0
 angle_min = -1440.0
 angle_max = 1440.0
-inherit_velocity_ratio = 0.318
+inherit_velocity_ratio = 0.1
 direction = Vector3(0, 0, 0)
 spread = 180.0
 initial_velocity_min = 102.15
 initial_velocity_max = 102.15
 gravity = Vector3(0, 0, 0)
-radial_accel_min = 16.309998
-radial_accel_max = 16.309998
+radial_accel_min = 0.99999774
+radial_accel_max = 0.99999774
+damping_curve = SubResource("CurveTexture_na4qu")
 color_ramp = SubResource("GradientTexture1D_yqtc1")
 alpha_curve = SubResource("CurveTexture_tsbx5")
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_na4qu"]
+collision_mode = 1
+collision_friction = 1.0
+collision_bounce = 0.0
+collision_use_scale = true
 
 [node name="Camera2D" type="Camera2D" unique_id=1068830333]
 editor_description = "Camera for sonar effect"
@@ -60,15 +70,7 @@ zoom = Vector2(1.5, 1.5)
 material = SubResource("ShaderMaterial_yqtc1")
 amount = 1430
 lifetime = 3.03
-speed_scale = 0.4
 explosiveness = 0.99
+collision_base_size = 2.0
 process_material = SubResource("ParticleProcessMaterial_4v6cc")
 script = ExtResource("1_yqtc1")
-
-[node name="TouchScreenButton" type="TouchScreenButton" parent="GPUParticles2D" unique_id=2055859871]
-position = Vector2(-73.905, -39.365)
-shape = SubResource("RectangleShape2D_na4qu")
-
-[node name="Sprite2D" type="Sprite2D" parent="GPUParticles2D/TouchScreenButton" unique_id=20396519]
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("2_na4qu")

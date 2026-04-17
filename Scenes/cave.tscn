@@ -13,3 +13,9 @@ polygon = PackedVector2Array(31, -1, 64, 40, 121, 74, 351, 204, 189, 303, 214, 4
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="CollisionPolygon2D" unique_id=317089390]
 occluder = SubResource("OccluderPolygon2D_n2bl1")
+
+[node name="Polygon2D" type="Polygon2D" parent="CollisionPolygon2D/LightOccluder2D" unique_id=859120786]
+color = Color(0, 0, 0, 0)
+invert_enabled = true
+invert_border = 30.0
+polygon = PackedVector2Array(31, -1, 64, 40, 121, 74, 351, 204, 189, 303, 214, 403, 329, 434, 464, 403, 526, 293, 536, 158, 661, 255, 803, 210, 838, 349, 996, 433, 975, 525, 865, 595, 908, 491, 822, 424, 775, 350, 764, 534, 773, 645, 840, 709, 701, 719, 709, 635, 688, 507, 668, 394, 611, 503, 577, 364, 493, 427, 472, 534, 456, 623, 329, 643, 277, 528, 350, 517, 385, 535, 426, 476, 323, 480, 206, 488, 195, 489, 131, 574, 19, 517, -17, 444, 48, 392, -14, 291, 35, 259, 93, 351, 117, 467, 140, 340, 119, 278, 168, 227, 237, 221, 199, 188, 45, 165, 45, 165, -57, 184, -164, 132, -107, 85, -42, 137, -42, 137, 12, 100, 11, 55, 2, -3)
