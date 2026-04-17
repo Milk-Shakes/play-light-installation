@@ -13,15 +13,18 @@ height = 92.0
 script = ExtResource("1_dewec")
 
 [node name="Submarine" type="Sprite2D" parent="." unique_id=384198664]
+z_index = 10
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_xhfnw")
 offset = Vector2(-10.25, -145.395)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1264097619]
+visible = false
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_kpjcp")
 
 [node name="DirectionalPointer" type="Sprite2D" parent="." unique_id=876545931]
+z_index = 11
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_kyqiw")
 offset = Vector2(-1.36, -207.79)
