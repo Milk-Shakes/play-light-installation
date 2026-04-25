@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://358urckctii5"]
 
-[ext_resource type="Shader" uid="uid://cunb1lb3vqsfu" path="res://Scenes/2 colour distance from center.tres" id="1_na4qu"]
+[ext_resource type="Shader" uid="uid://bcu5nwcey3yf0" path="res://Scenes/image based gradient.tres" id="1_na4qu"]
 [ext_resource type="Script" uid="uid://d26lq2rq5x7li" path="res://Scenes/gpu_particles_2d.gd" id="1_yqtc1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_acvpo"]

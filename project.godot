@@ -15,6 +15,10 @@ run/main_scene="uid://dijcocah11hrg"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[dotnet]
+
+project/assembly_name="Play-Light-Installation"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
