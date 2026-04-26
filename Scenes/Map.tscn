@@ -4,12 +4,51 @@
 [ext_resource type="PackedScene" uid="uid://358urckctii5" path="res://Scenes/Camera.tscn" id="2_7yn8b"]
 [ext_resource type="PackedScene" uid="uid://dyk155v0y66hw" path="res://Scenes/cave.tscn" id="3_etk83"]
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_etk83"]
+
 [node name="Game" type="Node2D" unique_id=686134835]
 
 [node name="Player" parent="." unique_id=758564927 instance=ExtResource("1_s486e")]
 
-[node name="Camera2D" parent="." unique_id=1068830333 instance=ExtResource("2_7yn8b")]
-
 [node name="Cave" parent="." unique_id=1279956684 instance=ExtResource("3_etk83")]
 position = Vector2(-141, -174)
 scale = Vector2(3.63, 3.63)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1091545404]
+texture = SubResource("CanvasTexture_etk83")
+
+[node name="Control" type="Control" parent="." unique_id=1243773283]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control" unique_id=371405208]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="Control/SubViewportContainer" unique_id=134034851]
+disable_3d = true
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="Camera2D" parent="Control/SubViewportContainer/SubViewport" unique_id=1068830333 instance=ExtResource("2_7yn8b")]
+script = null
