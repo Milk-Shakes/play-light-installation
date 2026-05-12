@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://358urckctii5"]
 
-[ext_resource type="Shader" uid="uid://bcu5nwcey3yf0" path="res://Scenes/image based gradient.tres" id="1_na4qu"]
+[ext_resource type="Shader" uid="uid://bcu5nwcey3yf0" path="res://Scenes/sonar_shaders/image based gradient.tres" id="1_na4qu"]
 [ext_resource type="Script" uid="uid://dxo56wetgjh35" path="res://Scenes/camera.gd" id="1_tsbx5"]
 [ext_resource type="Script" uid="uid://d26lq2rq5x7li" path="res://Scenes/gpu_particles_2d.gd" id="1_yqtc1"]
 
@@ -38,6 +38,8 @@ collision_use_scale = true
 editor_description = "Camera for sonar effect"
 zoom = Vector2(1.5, 1.5)
 script = ExtResource("1_tsbx5")
+LEDCount = Array[int]([63, 94, 126, 157, 189, 220, 251, 283, 314, 346, 377, 409, 440, 471])
+Radius = Array[int]([102, 152, 202, 252, 302, 352, 402, 452, 502, 552, 602, 652, 702, 752])
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1150930152]
 light_mask = 2
