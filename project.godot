@@ -17,6 +17,8 @@ config/icon="res://icon.svg"
 
 [display]
 
+window/size/viewport_width=512
+window/size/viewport_height=512
 window/stretch/aspect="ignore"
 window/vsync/vsync_mode=0
 
@@ -33,4 +35,4 @@ project/assembly_name="Play-Light-Installation"
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-environment/defaults/default_clear_color=Color(0.24477637, 0.2447764, 0.24477637, 1)
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

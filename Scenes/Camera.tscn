@@ -39,7 +39,7 @@ editor_description = "Camera for sonar effect"
 zoom = Vector2(1.5, 1.5)
 script = ExtResource("1_tsbx5")
 LEDCount = Array[int]([63, 94, 126, 157, 189, 220, 251, 283, 314, 346, 377, 409, 440, 471])
-Radius = Array[int]([102, 152, 202, 252, 302, 352, 402, 452, 502, 552, 602, 652, 702, 752])
+Radius = Array[float]([102.0, 152.0, 202.0, 252.0, 302.0, 352.0, 402.0, 452.0, 502.0, 552.0, 602.0, 652.0, 702.0, 752.0])
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1150930152]
 light_mask = 2
