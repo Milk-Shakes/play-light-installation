@@ -18,3 +18,4 @@ scale = Vector2(3.63, 3.63)
 texture = SubResource("CanvasTexture_etk83")
 
 [node name="Camera2D" parent="." unique_id=1068830333 instance=ExtResource("2_7yn8b")]
+Radius = Array[float]([102.0, 152.0, 202.0, 252.0, 302.0, 352.0, 402.0, 452.0, 502.0, 552.0, 602.0, 652.0, 702.0, 752.0])
