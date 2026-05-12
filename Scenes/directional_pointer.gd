@@ -9,7 +9,7 @@ signal direction_facing_Changed(pointer_angle)
 
 var pointer_rotation = 0
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	get_input() ## on input event query the get_input function (this seems to be inconsistent and laggy
 
 func get_input():

@@ -28,7 +28,7 @@ func get_input():
 	#print(current_speed)
 	## setting the current acceleration depending on how long the up or down key is held with a slow decay
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	move_direction = Vector2(sin(deg_to_rad(-player_move_direction)) * current_speed, cos(deg_to_rad(-player_move_direction)) * current_speed) ## applying a vector to the velocity based on the angle recieved from direction_pointer
 	velocity = move_direction
 	get_input()

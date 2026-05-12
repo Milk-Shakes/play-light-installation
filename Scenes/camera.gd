@@ -17,6 +17,7 @@ var LEDMaxCount: int
 @onready var ViewportYCenter: int = (get_viewport_rect().size.y/2)
 
 var LEDColourValue: Array[Color]
+var SceneTexture
 
 
 # Called when the node enters the scene tree for the first time.
@@ -38,9 +39,12 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	SceneTexture = get_viewport().get_texture()
 	for i in range(NumOfRings):
 		for c in LEDCount[i]:
-			LEDColourValue[c] = (get_viewport().get_texture().get_image().get_pixel(ViewportXCenter + ConvertedRadius[i]*sin(RingAngle[i]*c),ViewportYCenter + ConvertedRadius[i]*cos(RingAngle[i]*c)))
+			LEDColourValue[c] = SceneTexture.get_image().get_pixel(ViewportXCenter + ConvertedRadius[i] * sin(RingAngle[i] * c),ViewportYCenter + ConvertedRadius[i] * cos(RingAngle[i] * c))
+			
+			#LEDColourValue[c] = (get_viewport().get_texture().get_image().get_pixel(ViewportXCenter + ConvertedRadius[i]*sin(RingAngle[i]*c),ViewportYCenter + ConvertedRadius[i]*cos(RingAngle[i]*c)))
 			#print(get_viewport().get_texture().get_image().get_pixel(700,400))
 			#print(c)
 			#pass
