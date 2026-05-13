@@ -10,14 +10,14 @@
 
 [node name="Player" parent="." unique_id=758564927 instance=ExtResource("1_s486e")]
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1091545404]
-texture = SubResource("CanvasTexture_etk83")
-
-[node name="Camera2D" parent="." unique_id=1068830333 instance=ExtResource("2_7yn8b")]
+[node name="Camera2D" parent="Player" unique_id=1068830333 instance=ExtResource("2_7yn8b")]
 zoom = Vector2(1, 1)
 limit_enabled = false
 FPSCap = 30
 
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1091545404]
+texture = SubResource("CanvasTexture_etk83")
+
 [node name="Cave" parent="." unique_id=1279956684 instance=ExtResource("3_etk83")]
 position = Vector2(-127, -254)
-scale = Vector2(1.2, 1.2)
+scale = Vector2(2, 2)
