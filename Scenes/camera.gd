@@ -3,8 +3,8 @@ extends Camera2D
 @export_group("Display Settings")
 @export var Brightness: int = 120
 @export var MaxBrightness: int = 255
-@export var LEDCount: Array[int]
-@export var Radius: Array[float]
+@export var LEDCount: Array[int] = [ 63, 94, 126, 157, 189, 220, 251, 283, 314, 346, 377, 409, 440, 471 ]
+@export var Radius: Array[float] = [ 102.0, 152.0, 202.0, 252.0, 302.0, 352.0, 402.0, 452.0, 502.0, 552.0, 602.0, 652.0, 702.0, 752.0 ]
 
 @export var FPSCap: int = 15
 
