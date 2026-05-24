@@ -26,6 +26,10 @@ window/vsync/vsync_mode=0
 
 project/assembly_name="Play-Light-Installation"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdserial/plugin.cfg")
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

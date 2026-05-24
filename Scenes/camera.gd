@@ -1,5 +1,6 @@
 extends Camera2D
 
+
 @export_group("Display Settings")
 @export var Brightness: int = 120
 @export var MaxBrightness: int = 255
@@ -7,6 +8,11 @@ extends Camera2D
 @export var Radius: Array[float] = [ 102.0, 152.0, 202.0, 252.0, 302.0, 352.0, 402.0, 452.0, 502.0, 552.0, 602.0, 652.0, 702.0, 752.0 ]
 
 @export var FPSCap: int = 15
+
+@export var Port = "COM7"
+@export var BaudRate = 115200
+
+var manager: GdSerialManager
 
 var LEDMaxCount: int
 
@@ -24,16 +30,29 @@ var LEDColourValue: Array[Vector3i]
 var CurrentColourValue: Color
 var SceneTexture
 
-var thread: Thread
+#var thread: Thread
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	manager = GdSerialManager.new()
+	manager.data_received.connect(_on_data)
+	manager.port_disconnected.connect(_on_disconnect)
+	
+	
+	
+	if manager.open(Port, BaudRate, 1000):
+		print("Connected to " + str(Port))
+	
+	manager.MODE_RAW	
+	#manager.MODE_CUSTOM_DELIMITER
+	#manager.set_delimiter(Port, 0xFF)
+	
 	Engine.max_fps = FPSCap
 	
-	thread = Thread.new()
+	#thread = Thread.new()
 	
-	thread.start(_DisplayColorScan.bind("Display1"))
+	#thread.start(_DisplayColorScan.bind("Display1"))
 	
 	for n in range(NumOfRings):
 		LEDMaxCount = LEDMaxCount + LEDCount[n]
@@ -48,8 +67,15 @@ func _ready() -> void:
 	#pass # Replace with function body.
 
 
-func _DisplayColorScan(Scan):
-	pass
+func _on_data(port: String, data: PackedByteArray):
+	print("Data from ", port, ": ", data.get_string_from_ascii())
+	#pass
+
+func _on_disconnect(port: String):
+	print("Lost connection to ", port)
+
+#func _DisplayColorScan(Scan):
+#	pass
 	
 	#for i in range(NumOfRings):
 	#	for c in LEDCount[i]:
@@ -86,6 +112,7 @@ func _unhandled_input(event):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	manager.poll_events()
 	SceneTexture = get_viewport().get_texture().get_image()
 	var currentled = 0
 	for i in range(NumOfRings):
@@ -102,6 +129,11 @@ func _process(_delta: float) -> void:
 			currentled = currentled + 1
 		#print("NEXT RING")
 	currentled = 0 
+	#for d in LEDMaxCount:
+	#print(var_to_bytes(LEDColourValue))
+	manager.write(Port, LEDColourValue)
+	#var_to_bytes(LEDColourValue)
+	#manager.close(Port)
 	#_DisplayColorScan(SceneTexture)
 ##	queue_redraw()
 			#LEDColourValue[c] = (get_viewport().get_texture().get_image().get_pixel(ViewportXCenter + ConvertedRadius[i]*sin(RingAngle[i]*c),ViewportYCenter + ConvertedRadius[i]*cos(RingAngle[i]*c)))
@@ -113,5 +145,5 @@ func _process(_delta: float) -> void:
 	#get_viewport().get_texture().get_data().get_pixel(0.1,0.1)
 	#print(get_viewport().get_texture().get_data().get_pixel(0.1,0.1))
 	
-func _exit_tree():
-	thread.wait_to_finish()
+#func _exit_tree():
+#	thread.wait_to_finish()
