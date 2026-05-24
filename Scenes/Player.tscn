@@ -13,6 +13,7 @@ height = 92.0
 script = ExtResource("1_dewec")
 
 [node name="Submarine" type="Sprite2D" parent="." unique_id=384198664]
+visible = false
 z_index = 10
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_xhfnw")
