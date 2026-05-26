@@ -13,9 +13,12 @@
 [node name="Camera2D" parent="Player" unique_id=1068830333 instance=ExtResource("2_7yn8b")]
 zoom = Vector2(1, 1)
 limit_enabled = false
+Brightness = null
+MaxBrightness = null
 Radius = Array[float]([12.75, 22.75, 32.75, 42.75, 52.75, 62.75, 72.75, 82.75])
-FPSCap = 15
-BaudRate = 115200
+FPSCap = null
+Port = null
+BaudRate = null
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1091545404]
 texture = SubResource("CanvasTexture_etk83")
