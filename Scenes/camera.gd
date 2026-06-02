@@ -13,11 +13,11 @@ extends Camera2D
 @export var BaudRate = 115200
 
 
-var server = UDPServer.new()
-var peers = []
-var CurrentPacket = int()
+#var server = UDPServer.new()
+#var peers = []
+#var CurrentPacket = int()
 
-var manager: GdSerialManager
+#var manager: GdSerialManager
 
 var LEDMaxCount: int
 
@@ -32,10 +32,10 @@ var LEDMaxCount: int
 @onready var ScaleConversionFactor: float = (((ViewportHeight / 2)-10) / Radius.max())
 
 #var LEDColourValue: Array[int]
-#var LEDColourValue: Array[Vector3i]
-var LEDColourValueR: Array[int]
-var LEDColourValueG: Array[int]
-var LEDColourValueB: Array[int]
+var LEDColourValue: Array[Vector3i]
+#var LEDColourValueR: Array[int]
+#var LEDColourValueG: Array[int]
+#var LEDColourValueB: Array[int]
 var CurrentColourValue: Color
 var SceneTexture
 
@@ -49,7 +49,7 @@ func _ready() -> void:
 	#manager.data_received.connect(_on_data)
 	#manager.port_disconnected.connect(_on_disconnect)
 	
-	server.listen(1234)
+	#server.listen(1234)
 	
 	
 
@@ -65,17 +65,17 @@ func _ready() -> void:
 	
 	thread = Thread.new()
 	
-	thread.start(_DisplayColorScan.bind("Display1"))
+	#thread.start(_DisplayColorScan.bind("Display1"))
 	
 	for n in range(NumOfRings):
 		LEDMaxCount = LEDMaxCount + LEDCount[n]
 	
 	ConvertedRadius.resize(NumOfRings)
 	RingAngle.resize(NumOfRings)
-	LEDColourValueR.resize(LEDMaxCount)
-	LEDColourValueG.resize(LEDMaxCount)
-	LEDColourValueB.resize(LEDMaxCount)
-	#LEDColourValue.resize(LEDMaxCount)
+	#LEDColourValueR.resize(LEDMaxCount)
+	#LEDColourValueG.resize(LEDMaxCount)
+	#LEDColourValueB.resize(LEDMaxCount)
+	LEDColourValue.resize(LEDMaxCount)
 	
 	for b in range(NumOfRings):
 		ConvertedRadius[b] = Radius[b] * ScaleConversionFactor
@@ -90,28 +90,28 @@ func _ready() -> void:
 #unc _on_disconnect(port: String):
 #	print("Lost connection to ", port)
 
-func _DisplayColorScan(scan):
+#func _DisplayColorScan(scan):
 	#pass
-	server.poll() # Important!
-	if server.is_connection_available():
-		var peer = server.take_connection()
-		var packet = peer.get_packet()
-		print("Accepted peer: %s:%s" % [peer.get_packet_ip(), peer.get_packet_port()])
-		print("Received data: %s" % [packet.get_string_from_utf8()])
+	#server.poll() # Important!
+	#if server.is_connection_available():
+	#	var peer = server.take_connection()
+	#	var packet = peer.get_packet()
+	#	print("Accepted peer: %s:%s" % [peer.get_packet_ip(), peer.get_packet_port()])
+	#	print("Received data: %s" % [packet.get_string_from_utf8()])
 		# Reply so it knows we received the message.
-		peer.put_packet(packet)
+	#	peer.put_packet(packet)
 		# Keep a reference so we can keep contacting the remote peer.
-		peers.append(peer)
+	#	peers.append(peer)
 	
-	for peer in peers:
-		peer.put_packet("Packet ".to_ascii_buffer() + str(CurrentPacket).to_ascii_buffer() + " Red ".to_ascii_buffer() + str(LEDColourValueR).to_ascii_buffer() + " end".to_ascii_buffer())
-		peer.put_packet("Packet ".to_ascii_buffer() + str(CurrentPacket).to_ascii_buffer() + " Green ".to_ascii_buffer() + str(LEDColourValueG).to_ascii_buffer() + " end".to_ascii_buffer())
-		peer.put_packet("Packet ".to_ascii_buffer() + str(CurrentPacket).to_ascii_buffer() + " Blue ".to_ascii_buffer() + str(LEDColourValueB).to_ascii_buffer() + " end".to_ascii_buffer())
+	#for peer in peers:
+	#	peer.put_packet("Packet ".to_ascii_buffer() + str(CurrentPacket).to_ascii_buffer() + " Red ".to_ascii_buffer() + str(LEDColourValueR).to_ascii_buffer() + " end".to_ascii_buffer())
+	#	peer.put_packet("Packet ".to_ascii_buffer() + str(CurrentPacket).to_ascii_buffer() + " Green ".to_ascii_buffer() + str(LEDColourValueG).to_ascii_buffer() + " end".to_ascii_buffer())
+	#	peer.put_packet("Packet ".to_ascii_buffer() + str(CurrentPacket).to_ascii_buffer() + " Blue ".to_ascii_buffer() + str(LEDColourValueB).to_ascii_buffer() + " end".to_ascii_buffer())
 	
-	if (CurrentPacket < 255):
-		CurrentPacket = CurrentPacket + 1
-	else:
-		CurrentPacket = 0
+	#if (CurrentPacket < 255):
+	#	CurrentPacket = CurrentPacket + 1
+	#else:
+	#	CurrentPacket = 0
 	
 	#for i in range(NumOfRings):
 	#	for c in LEDCount[i]:
@@ -123,8 +123,8 @@ func _DisplayColorScan(scan):
 func save_to_file():
 	var file = FileAccess.open("res://save_game.dat", FileAccess.WRITE)
 	SceneTexture.save_png("Test.png")    
-	#for k in LEDMaxCount:
-		#file.store_string(" {" + str(LEDColourValue[k][0]) + "," + str(LEDColourValue[k][1]) + "," + str(LEDColourValue[k][2]) + "} , ")
+	for k in LEDMaxCount:
+		file.store_string(" {" + str(LEDColourValue[k][0]) + "," + str(LEDColourValue[k][1]) + "," + str(LEDColourValue[k][2]) + "} , ")
 
 	file.close() 
 
@@ -165,13 +165,13 @@ func _process(_delta: float) -> void:
 			#print(str(ViewportXCenter) + "  |  " + str(ViewportYCenter))
 			#print(str(TestX) + "  |  " + str(testY) + "  |  " + str(currentled) + "  |  " + str(CurrentAngle))
 			
-			#LEDColourValue[currentled][0] = CurrentColourValue.r8
-			#LEDColourValue[currentled][1] = CurrentColourValue.g8
-			#LEDColourValue[currentled][2] = CurrentColourValue.b8
+			LEDColourValue[currentled][0] = CurrentColourValue.r8
+			LEDColourValue[currentled][1] = CurrentColourValue.g8
+			LEDColourValue[currentled][2] = CurrentColourValue.b8
 			
-			LEDColourValueR[currentled] = CurrentColourValue.r8
-			LEDColourValueG[currentled] = CurrentColourValue.g8
-			LEDColourValueB[currentled] = CurrentColourValue.b8
+			#LEDColourValueR[currentled] = CurrentColourValue.r8
+			#LEDColourValueG[currentled] = CurrentColourValue.g8
+			#LEDColourValueB[currentled] = CurrentColourValue.b8
 			currentled = currentled + 1
 			
 			#manager.to_string()
@@ -186,7 +186,7 @@ func _process(_delta: float) -> void:
 		#print("NEXT RING")
 	currentled = 0 
 	
-	_DisplayColorScan(1)
+	#_DisplayColorScan(1)
 	
 	#var redvalue = str(LEDColourValueR).to_utf8_buffer().hex_encode()
 	
