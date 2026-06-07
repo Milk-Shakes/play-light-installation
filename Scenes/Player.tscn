@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dfxg5kh4gicin" path="res://Images/Submarine quick edit.png" id="1_xhfnw"]
 [ext_resource type="Texture2D" uid="uid://bobfar5up540k" path="res://Images/CharacteDirectionPointer.png" id="2_kyqiw"]
 [ext_resource type="Script" uid="uid://b0lk2ea7yiab2" path="res://Scenes/directional_pointer.gd" id="3_gntrk"]
+[ext_resource type="Texture2D" uid="uid://mww17gq5h1b3" path="res://Images/Asset 3.png" id="5_5ixxa"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpjcp"]
 radius = 16.0
@@ -25,11 +26,16 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_kpjcp")
 
 [node name="DirectionalPointer" type="Sprite2D" parent="." unique_id=876545931]
-visible = false
 z_index = 11
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.05, 0.05)
 texture = ExtResource("2_kyqiw")
 offset = Vector2(-1.36, -207.79)
 script = ExtResource("3_gntrk")
+
+[node name="Asset3" type="Sprite2D" parent="." unique_id=1746103143]
+z_index = 8
+y_sort_enabled = true
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("5_5ixxa")
 
 [connection signal="direction_facing_Changed" from="DirectionalPointer" to="." method="_on_directional_pointer_direction_facing_changed"]

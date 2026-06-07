@@ -8,11 +8,11 @@ func _ready() -> void:
 	pass
 
 
-func _on_timer_timeout():
-	Camera.transform = Player.transform
-	emitting = true
-	var root = get_tree().root
-	var main_scene = root.get_child(root.get_child_count() - 1)
-	get_parent().remove_child($".")
-	main_scene.add_child($".")
-	$".".set_owner(main_scene)
+#func _on_timer_timeout():
+	#Camera.transform = Player.transform
+	#emitting = true
+	#var root = get_tree().root
+	#var main_scene = root.get_child(root.get_child_count() - 1)
+	#get_parent().remove_child($".")
+	#main_scene.add_child($".")
+	#$".".set_owner(main_scene)

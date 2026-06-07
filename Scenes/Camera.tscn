@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://bcu5nwcey3yf0" path="res://Scenes/sonar_shaders/image based gradient.tres" id="1_na4qu"]
 [ext_resource type="Script" uid="uid://dxo56wetgjh35" path="res://Scenes/camera.gd" id="1_tsbx5"]
-[ext_resource type="Script" uid="uid://d26lq2rq5x7li" path="res://Scenes/gpu_particles_2d.gd" id="1_yqtc1"]
+[ext_resource type="Texture2D" uid="uid://dqo56x0amqmub" path="res://Images/de25fd26-93a0-49d2-9113-13dcd39509df.PNG" id="4_acvpo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_acvpo"]
 shader = ExtResource("1_na4qu")
@@ -16,6 +16,7 @@ curve = SubResource("Curve_na4qu")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4v6cc"]
 particle_flag_disable_z = true
+emission_shape_offset = Vector3(-9, -1.5, 0)
 emission_shape_scale = Vector3(0, 0, 0)
 emission_shape = 2
 emission_sphere_radius = 3.0
@@ -23,8 +24,8 @@ angle_min = -1440.0
 angle_max = 1440.0
 direction = Vector3(0, 0, 0)
 spread = 180.0
-initial_velocity_min = 10.0
-initial_velocity_max = 10.0
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
 gravity = Vector3(0, 0, 0)
 scale_min = 5.0
 scale_max = 5.0
@@ -33,24 +34,68 @@ collision_mode = 1
 collision_friction = 1.0
 collision_bounce = 0.0
 collision_use_scale = true
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 1
+sub_emitter_keep_velocity = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tsbx5"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(-9, -1.5, 0)
+emission_shape_scale = Vector3(0, 0, 0)
+angle_min = -1440.0
+angle_max = 1440.0
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, 0, 0)
+spread = 10.0
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 5.0
+alpha_curve = SubResource("CurveTexture_tsbx5")
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 10
+sub_emitter_keep_velocity = true
 
 [node name="Camera2D" type="Camera2D" unique_id=1068830333]
 editor_description = "Camera for sonar effect"
+show_behind_parent = true
 zoom = Vector2(1.5, 1.5)
 script = ExtResource("1_tsbx5")
-FPSCap = 10
+FPSCap = 60
 BaudRate = 57600
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1150930152 node_paths=PackedStringArray("Camera")]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1150930152]
 light_mask = 2
 visibility_layer = 2
 material = SubResource("ShaderMaterial_acvpo")
+position = Vector2(27, 0)
 scale = Vector2(3.7949998, 3.7949998)
 amount = 6000
-lifetime = 12.0
+sub_emitter = NodePath("GPUParticles2D")
+lifetime = 6.0
 explosiveness = 0.93
 fixed_fps = 60
 collision_base_size = 3.0
 process_material = SubResource("ParticleProcessMaterial_4v6cc")
-script = ExtResource("1_yqtc1")
-Camera = NodePath("..")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="GPUParticles2D" unique_id=624732504]
+light_mask = 2
+visibility_layer = 2
+material = SubResource("ShaderMaterial_acvpo")
+position = Vector2(27, 0)
+scale = Vector2(3.7949998, 3.7949998)
+emitting = false
+amount = 6000
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.93
+fixed_fps = 60
+collision_base_size = 3.0
+process_material = SubResource("ParticleProcessMaterial_tsbx5")
+
+[node name="De25Fd2693a049d2911313Dcd39509Df" type="Sprite2D" parent="." unique_id=1542539582]
+visible = false
+z_index = 3
+scale = Vector2(0.13, 0.13)
+texture = ExtResource("4_acvpo")
