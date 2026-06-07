@@ -7,7 +7,11 @@ var rotation_direction = 0
 
 signal direction_facing_Changed(pointer_angle)
 
-var pointer_rotation = 0
+var pointer_rotation = 180
+
+func _ready() -> void:
+	rotation_degrees = pointer_rotation
+	direction_facing_Changed.emit(rotation_degrees)
 
 func _input(_event: InputEvent) -> void:
 	get_input() ## on input event query the get_input function (this seems to be inconsistent and laggy
