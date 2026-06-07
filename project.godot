@@ -78,4 +78,4 @@ limits/webrtc/max_channel_in_buffer_kb=2066
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-environment/defaults/default_clear_color=Color(0.18000486, 0.18000486, 0.18000486, 1)
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
