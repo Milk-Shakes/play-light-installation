@@ -31,6 +31,8 @@ polygon = PackedVector2Array(441.82117, 355.5028, 456.4032, 360.53687, 470.86243
 polygon = PackedVector2Array(466.63824, 470.81238, 507.42712, 469.5396, 519.4833, 483.83405, 512.0719, 501.55664, 513.62866, 519.3797, 505.48914, 523.7066, 486.1222, 518.16644, 473.1239, 497.68665, 474.9823, 488.60504)
 
 [node name="Cave" unique_id=1279956684 instance=ExtResource("1_od5v8")]
+disable_mode = 2
+input_pickable = false
 
 [node name="CollisionPolygon2D" parent="." index="0" unique_id=428014817]
 scale = Vector2(2.046826, 2.046826)
