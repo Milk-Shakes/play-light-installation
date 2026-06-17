@@ -32,9 +32,9 @@ var LEDMaxCount: int
 @onready var ScaleConversionFactor: float = (((ViewportHeight / 2)-10) / Radius.max())
 
 #var LEDColourValue: Array[int]
-var LEDColourValue: Array[Vector3i]
+#var LEDColourValue: Array[Vector3i]
 var colourtestarray: PackedByteArray
-var colourtest = Color8(62, 51, 126, 255)
+#var colourtest = Color8(62, 51, 126, 255)
 
 var DisplayCommand: PackedByteArray
 
@@ -46,8 +46,6 @@ var SceneTexture: Image
 
 var thread1: Thread
 var thread2: Thread
-var thread3: Thread
-var thread4: Thread
 
 var PrintDisplay = false
 
@@ -84,13 +82,13 @@ func _ready() -> void:
 	colourtestarray.resize(64)
 	DisplayCommand.resize(64)
 	DisplayCommand = [255, 255, 255, 123, 45, 67,89, 10, 11, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,]
-	for m in 21:
-		var i = m * 3
-		colourtestarray.encode_u8(i, colourtest.r8)
-		colourtestarray.encode_u8(i+1, colourtest.g8)
-		colourtestarray.encode_u8(i+2, colourtest.b8)
-	print(var_to_bytes(colourtestarray).slice(7, 71))
-	hid.write(var_to_bytes(colourtestarray).slice(7, 71))
+	#for m in 21:
+	#	var i = m * 3
+	#	colourtestarray.encode_u8(i, colourtest.r8)
+	#	colourtestarray.encode_u8(i+1, colourtest.g8)
+	#	colourtestarray.encode_u8(i+2, colourtest.b8)
+	#print(var_to_bytes(colourtestarray).slice(7, 71))
+	#hid.write(var_to_bytes(colourtestarray).slice(7, 71))
 	
 	#if manager.open(Port, BaudRate, 1000):
 	#	print("Connected to " + str(Port))
@@ -111,7 +109,7 @@ func _ready() -> void:
 	#LEDColourValueR.resize(LEDMaxCount)
 	#LEDColourValueG.resize(LEDMaxCount)
 	#LEDColourValueB.resize(LEDMaxCount)
-	LEDColourValue.resize(LEDMaxCount)
+	#LEDColourValue.resize(LEDMaxCount)
 	
 	for b in range(NumOfRings):
 		ConvertedRadius[b] = Radius[b] * ScaleConversionFactor
