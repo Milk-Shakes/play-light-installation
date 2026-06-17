@@ -91,6 +91,7 @@ visibility_rect = Rect2(-300, -300, 600, 600)
 process_material = SubResource("ParticleProcessMaterial_tsbx5")
 
 [node name="De25Fd2693a049d2911313Dcd39509Df" type="Sprite2D" parent="." unique_id=1542539582]
+visible = false
 z_index = 1
 z_as_relative = false
 y_sort_enabled = true
