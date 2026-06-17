@@ -40,7 +40,7 @@ var colourtest = Color8(62, 51, 126, 255)
 #var LEDColourValueG: Array[int]
 #var LEDColourValueB: Array[int]
 var CurrentColourValue: Color
-var SceneTexture
+var SceneTexture: Image
 
 var thread: Thread
 
@@ -75,12 +75,13 @@ func _ready() -> void:
 	#var report_recv = hid.read_timeout(64, 10)
 	# And write report data to HID
 	colourtestarray.resize(64)
-	for m in 19:
-		colourtestarray.encode_u8(m, colourtest.r8)
-		colourtestarray.encode_u8(m+1, colourtest.g8)
-		colourtestarray.encode_u8(m+2, colourtest.b8)
-	print(var_to_bytes(colourtestarray))
-	hid.write(var_to_bytes(colourtestarray))
+	for m in 21:
+		var i = m * 3
+		colourtestarray.encode_u8(i, colourtest.r8)
+		colourtestarray.encode_u8(i+1, colourtest.g8)
+		colourtestarray.encode_u8(i+2, colourtest.b8)
+	print(var_to_bytes(colourtestarray).slice(7, 71))
+	hid.write(var_to_bytes(colourtestarray).slice(7, 71))
 	
 	#if manager.open(Port, BaudRate, 1000):
 	#	print("Connected to " + str(Port))
@@ -91,9 +92,7 @@ func _ready() -> void:
 	
 	Engine.max_fps = FPSCap
 	
-	thread = Thread.new()
 	
-	#thread.start(_DisplayColorScan.bind("Display1"))
 	
 	for n in range(NumOfRings):
 		LEDMaxCount = LEDMaxCount + LEDCount[n]
@@ -109,6 +108,9 @@ func _ready() -> void:
 		ConvertedRadius[b] = Radius[b] * ScaleConversionFactor
 		RingAngle[b] = 360.0 / LEDCount[b]
 	#pass # Replace with function body.
+	thread = Thread.new()
+	
+	thread.start(_DisplayColorScan.bind(ViewportTexture))
 
 
 #func _on_data(port: String, data: PackedByteArray):
@@ -118,7 +120,52 @@ func _ready() -> void:
 #unc _on_disconnect(port: String):
 #	print("Lost connection to ", port)
 
-#func _DisplayColorScan(scan):
+func _DisplayColorScan():
+	SceneTexture = get_viewport().get_texture().get_image()
+	var currentled = 0
+	var BytesToSend = 1
+	for i in range(NumOfRings):
+		for c in LEDCount[i]:
+			var CurrentAngle = float(deg_to_rad(RingAngle[i] * c)) 
+			var TestX = int(ViewportXCenter + (ConvertedRadius[i] * sin(CurrentAngle)))
+			var testY = int(ViewportYCenter + (ConvertedRadius[i] * cos(CurrentAngle)))
+			CurrentColourValue = SceneTexture.get_pixel(TestX,testY)
+			#print(str(ViewportXCenter) + "  |  " + str(ViewportYCenter))
+			#print(str(TestX) + "  |  " + str(testY) + "  |  " + str(currentled) + "  |  " + str(CurrentAngle))
+			
+			##LEDColourValue[currentled][0] = CurrentColourValue.r8
+			##LEDColourValue[currentled][1] = CurrentColourValue.g8
+			##LEDColourValue[currentled][2] = CurrentColourValue.b8
+			if (BytesToSend < 1):
+				colourtestarray.encode_u8(0, c)
+			colourtestarray.encode_u8(BytesToSend, CurrentColourValue.r8)
+			colourtestarray.encode_u8(BytesToSend+1, CurrentColourValue.g8)
+			colourtestarray.encode_u8(BytesToSend+2, CurrentColourValue.b8)
+			BytesToSend = BytesToSend + 3
+			if (BytesToSend > 56):
+				#print(var_to_bytes(colourtestarray))
+				hid.write(var_to_bytes(colourtestarray).slice(7, 71))
+				BytesToSend = 1
+			
+			#LEDColourValueR[currentled] = CurrentColourValue.r8
+			#LEDColourValueG[currentled] = CurrentColourValue.g8
+			#LEDColourValueB[currentled] = CurrentColourValue.b8
+			currentled = currentled + 1
+			
+			#manager.to_string()
+			#manager.write(Port, var_to_bytes(currentled))
+			#manager.write(Port, var_to_bytes(clamp(CurrentColourValue.r8, 1, 254)))
+			#manager.write(Port, var_to_bytes(clamp(CurrentColourValue.g8, 1, 254)))
+			#manager.write(Port, var_to_bytes(clamp(CurrentColourValue.b8, 1, 254)))
+			#manager.write(Port, var_to_bytes(255))
+			#manager.to_string()
+			#currentled = currentled + 1
+		
+		#print("NEXT RING")
+	currentled = 0 
+	if (BytesToSend != 0):
+		hid.write(var_to_bytes(colourtestarray).slice(7, 71))
+		BytesToSend = 1
 	#pass
 	#server.poll() # Important!
 	#if server.is_connection_available():
@@ -148,18 +195,18 @@ func _ready() -> void:
 	#		LEDColourValue[c][1] = CurrentColourValue.g8
 	#		LEDColourValue[c][2] = CurrentColourValue.b8
 
-func save_to_file():
-	var file = FileAccess.open("res://save_game.dat", FileAccess.WRITE)
-	SceneTexture.save_png("Test.png")    
-	for k in LEDMaxCount:
-		file.store_string(" {" + str(LEDColourValue[k][0]) + "," + str(LEDColourValue[k][1]) + "," + str(LEDColourValue[k][2]) + "} , ")
+#func save_to_file():
+#	var file = FileAccess.open("res://save_game.dat", FileAccess.WRITE)
+#	SceneTexture.save_png("Test.png")    
+#	for k in LEDMaxCount:
+#		file.store_string(" {" + str(LEDColourValue[k][0]) + "," + str(LEDColourValue[k][1]) + "," + str(LEDColourValue[k][2]) + "} , ")
 
-	file.close() 
+#	file.close() 
 
-func _unhandled_input(event):
-	if event is InputEventKey:
-		if event.pressed and event.keycode == KEY_SPACE:
-			save_to_file()
+#func _unhandled_input(event):
+#	if event is InputEventKey:
+#		if event.pressed and event.keycode == KEY_SPACE:
+#			save_to_file()
 
 #func _draw():
 #	for i in range(NumOfRings):
@@ -182,50 +229,51 @@ func _process(_delta: float) -> void:
 
 		#pass # Do something with the connected peers.
 	
-	SceneTexture = get_viewport().get_texture().get_image()
-	var currentled = 0
-	var BytesToSend = 0
-	for i in range(NumOfRings):
-		for c in LEDCount[i]:
-			var CurrentAngle = float(deg_to_rad(RingAngle[i] * c)) 
-			var TestX = int(ViewportXCenter + (ConvertedRadius[i] * sin(CurrentAngle)))
-			var testY = int(ViewportYCenter + (ConvertedRadius[i] * cos(CurrentAngle)))
-			CurrentColourValue = SceneTexture.get_pixel(TestX,testY)
-			#print(str(ViewportXCenter) + "  |  " + str(ViewportYCenter))
-			#print(str(TestX) + "  |  " + str(testY) + "  |  " + str(currentled) + "  |  " + str(CurrentAngle))
-			
-			##LEDColourValue[currentled][0] = CurrentColourValue.r8
-			##LEDColourValue[currentled][1] = CurrentColourValue.g8
-			##LEDColourValue[currentled][2] = CurrentColourValue.b8
-			colourtestarray.encode_u8(BytesToSend, CurrentColourValue.r8)
-			colourtestarray.encode_u8(BytesToSend+1, CurrentColourValue.g8)
-			colourtestarray.encode_u8(BytesToSend+2, CurrentColourValue.b8)
-			BytesToSend = BytesToSend + 3
-			if (BytesToSend > 56):
-				#print(var_to_bytes(colourtestarray))
-				hid.write(var_to_bytes(colourtestarray))
-				BytesToSend = 0
-			
-			#LEDColourValueR[currentled] = CurrentColourValue.r8
-			#LEDColourValueG[currentled] = CurrentColourValue.g8
-			#LEDColourValueB[currentled] = CurrentColourValue.b8
-			currentled = currentled + 1
-			
-			#manager.to_string()
-			#manager.write(Port, var_to_bytes(currentled))
-			#manager.write(Port, var_to_bytes(clamp(CurrentColourValue.r8, 1, 254)))
-			#manager.write(Port, var_to_bytes(clamp(CurrentColourValue.g8, 1, 254)))
-			#manager.write(Port, var_to_bytes(clamp(CurrentColourValue.b8, 1, 254)))
-			#manager.write(Port, var_to_bytes(255))
-			#manager.to_string()
+	#SceneTexture = get_viewport().get_texture().get_image()
+	_DisplayColorScan()
+	#var currentled = 0
+	#var BytesToSend = 0
+	#for i in range(NumOfRings):
+		#for c in LEDCount[i]:
+			#var CurrentAngle = float(deg_to_rad(RingAngle[i] * c)) 
+			#var TestX = int(ViewportXCenter + (ConvertedRadius[i] * sin(CurrentAngle)))
+			#var testY = int(ViewportYCenter + (ConvertedRadius[i] * cos(CurrentAngle)))
+			#CurrentColourValue = SceneTexture.get_pixel(TestX,testY)
+			##print(str(ViewportXCenter) + "  |  " + str(ViewportYCenter))
+			##print(str(TestX) + "  |  " + str(testY) + "  |  " + str(currentled) + "  |  " + str(CurrentAngle))
+			#
+			###LEDColourValue[currentled][0] = CurrentColourValue.r8
+			###LEDColourValue[currentled][1] = CurrentColourValue.g8
+			###LEDColourValue[currentled][2] = CurrentColourValue.b8
+			#colourtestarray.encode_u8(BytesToSend, CurrentColourValue.r8)
+			#colourtestarray.encode_u8(BytesToSend+1, CurrentColourValue.g8)
+			#colourtestarray.encode_u8(BytesToSend+2, CurrentColourValue.b8)
+			#BytesToSend = BytesToSend + 3
+			#if (BytesToSend > 56):
+				##print(var_to_bytes(colourtestarray))
+				##hid.write(var_to_bytes(colourtestarray).slice(7, 71))
+				#BytesToSend = 0
+			#
+			##LEDColourValueR[currentled] = CurrentColourValue.r8
+			##LEDColourValueG[currentled] = CurrentColourValue.g8
+			##LEDColourValueB[currentled] = CurrentColourValue.b8
 			#currentled = currentled + 1
-		
-		#print("NEXT RING")
-	currentled = 0 
-	if (BytesToSend != 0):
-		hid.write(var_to_bytes(colourtestarray))
-		BytesToSend = 0
-	#_DisplayColorScan(1)
+			#
+			##manager.to_string()
+			##manager.write(Port, var_to_bytes(currentled))
+			##manager.write(Port, var_to_bytes(clamp(CurrentColourValue.r8, 1, 254)))
+			##manager.write(Port, var_to_bytes(clamp(CurrentColourValue.g8, 1, 254)))
+			##manager.write(Port, var_to_bytes(clamp(CurrentColourValue.b8, 1, 254)))
+			##manager.write(Port, var_to_bytes(255))
+			##manager.to_string()
+			##currentled = currentled + 1
+		#
+		##print("NEXT RING")
+	#currentled = 0 
+	#if (BytesToSend != 0):
+		#hid.write(var_to_bytes(colourtestarray).slice(7, 71))
+		#BytesToSend = 0
+	##_DisplayColorScan(1)
 	
 	#var redvalue = str(LEDColourValueR).to_utf8_buffer().hex_encode()
 	
