@@ -79,7 +79,7 @@ func _input(event):
 		$DirectionalPointer/HighSpeed.visible = true
 
 	#current_speed = (CurrentSpeed * (speed/3))
-	print(current_speed)
+	#print(current_speed)
 	## setting the current acceleration depending on how long the up or down key is held with a slow decay
 
 func _physics_process(delta):

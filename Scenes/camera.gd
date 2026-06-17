@@ -33,6 +33,9 @@ var LEDMaxCount: int
 
 #var LEDColourValue: Array[int]
 var LEDColourValue: Array[Vector3i]
+var colourtestarray: PackedByteArray
+var colourtest = Color8(62, 51, 126, 255)
+
 #var LEDColourValueR: Array[int]
 #var LEDColourValueG: Array[int]
 #var LEDColourValueB: Array[int]
@@ -41,6 +44,8 @@ var SceneTexture
 
 var thread: Thread
 
+var hid = Hid.new()
+
 
 
 # Called when the node enters the scene tree for the first time.
@@ -48,11 +53,34 @@ func _ready() -> void:
 	#manager = GdSerialManager.new()
 	#manager.data_received.connect(_on_data)
 	#manager.port_disconnected.connect(_on_disconnect)
-	
 	#server.listen(1234)
 	
-	
+	#var devices = Hid.list_devices()
+	#print(devices)
 
+# List all connected HID devices.
+	#var devices = Hid.list_devices()
+	#print(devices)
+
+	
+	# Open by vender id and product id
+	hid.open(5824, 1158)
+	# Or open by device path
+	#hid.open_path(path)
+	# Or open by serial number
+	#hid.open_serial(vid, pid, serial_number)
+
+	# Then you can read HID report data from device.
+	#var report_recv = hid.read(64)
+	#var report_recv = hid.read_timeout(64, 10)
+	# And write report data to HID
+	colourtestarray.resize(64)
+	for m in 19:
+		colourtestarray.encode_u8(m, colourtest.r8)
+		colourtestarray.encode_u8(m+1, colourtest.g8)
+		colourtestarray.encode_u8(m+2, colourtest.b8)
+	print(var_to_bytes(colourtestarray))
+	hid.write(var_to_bytes(colourtestarray))
 	
 	#if manager.open(Port, BaudRate, 1000):
 	#	print("Connected to " + str(Port))
@@ -156,6 +184,7 @@ func _process(_delta: float) -> void:
 	
 	SceneTexture = get_viewport().get_texture().get_image()
 	var currentled = 0
+	var BytesToSend = 0
 	for i in range(NumOfRings):
 		for c in LEDCount[i]:
 			var CurrentAngle = float(deg_to_rad(RingAngle[i] * c)) 
@@ -165,9 +194,17 @@ func _process(_delta: float) -> void:
 			#print(str(ViewportXCenter) + "  |  " + str(ViewportYCenter))
 			#print(str(TestX) + "  |  " + str(testY) + "  |  " + str(currentled) + "  |  " + str(CurrentAngle))
 			
-			LEDColourValue[currentled][0] = CurrentColourValue.r8
-			LEDColourValue[currentled][1] = CurrentColourValue.g8
-			LEDColourValue[currentled][2] = CurrentColourValue.b8
+			##LEDColourValue[currentled][0] = CurrentColourValue.r8
+			##LEDColourValue[currentled][1] = CurrentColourValue.g8
+			##LEDColourValue[currentled][2] = CurrentColourValue.b8
+			colourtestarray.encode_u8(BytesToSend, CurrentColourValue.r8)
+			colourtestarray.encode_u8(BytesToSend+1, CurrentColourValue.g8)
+			colourtestarray.encode_u8(BytesToSend+2, CurrentColourValue.b8)
+			BytesToSend = BytesToSend + 3
+			if (BytesToSend > 56):
+				#print(var_to_bytes(colourtestarray))
+				hid.write(var_to_bytes(colourtestarray))
+				BytesToSend = 0
 			
 			#LEDColourValueR[currentled] = CurrentColourValue.r8
 			#LEDColourValueG[currentled] = CurrentColourValue.g8
@@ -185,7 +222,9 @@ func _process(_delta: float) -> void:
 		
 		#print("NEXT RING")
 	currentled = 0 
-	
+	if (BytesToSend != 0):
+		hid.write(var_to_bytes(colourtestarray))
+		BytesToSend = 0
 	#_DisplayColorScan(1)
 	
 	#var redvalue = str(LEDColourValueR).to_utf8_buffer().hex_encode()
