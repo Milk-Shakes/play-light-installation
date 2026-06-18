@@ -95,6 +95,7 @@ scale = Vector2(1.1164066, 1.1164066)
 texture = ExtResource("8_yoq75")
 
 [node name="Submarine v2" type="Sprite2D" parent="." unique_id=1746103143]
+visible = false
 z_index = 2
 y_sort_enabled = true
 scale = Vector2(0.15, 0.15)

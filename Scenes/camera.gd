@@ -81,14 +81,23 @@ func _ready() -> void:
 	# And write report data to HID
 	colourtestarray.resize(64)
 	DisplayCommand.resize(64)
-	DisplayCommand = [255, 255, 255, 123, 45, 67,89, 10, 11, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,]
+	for i in 64:
+		DisplayCommand.encode_s8(i, 255)
+	DisplayCommand.encode_s8(3, 123)
+	DisplayCommand.encode_s8(4, 45)
+	DisplayCommand.encode_s8(5, 67)
+	DisplayCommand.encode_s8(6, 89)
+	DisplayCommand.encode_s8(7, 10)
+	DisplayCommand.encode_s8(8, 11)
 	#for m in 21:
 	#	var i = m * 3
 	#	colourtestarray.encode_u8(i, colourtest.r8)
 	#	colourtestarray.encode_u8(i+1, colourtest.g8)
 	#	colourtestarray.encode_u8(i+2, colourtest.b8)
-	#print(var_to_bytes(colourtestarray).slice(7, 71))
-	#hid.write(var_to_bytes(colourtestarray).slice(7, 71))
+	#print(var_to_bytes(colourtestarray).slice(7, 72))
+	#hid.write(var_to_bytes(colourtestarray).slice(7, 72))
+	#hid.write(var_to_bytes(DisplayCommand).slice(7, 72))
+	
 	
 	#if manager.open(Port, BaudRate, 1000):
 	#	print("Connected to " + str(Port))
@@ -160,8 +169,8 @@ func _DisplayColorScan():
 				BytesToSend = BytesToSend + 3
 				if (BytesToSend > 63):
 					#print(var_to_bytes(colourtestarray))
-					PushHID(var_to_bytes(colourtestarray).slice(7, 71))
-					#hid.write(var_to_bytes(colourtestarray).slice(7, 71))
+					PushHID(var_to_bytes(colourtestarray).slice(7, 72))
+					#hid.write(var_to_bytes(colourtestarray).slice(7, 72))
 					BytesToSend = 4
 				
 				#LEDColourValueR[currentled] = CurrentColourValue.r8
@@ -185,8 +194,8 @@ func _DisplayColorScan():
 			#print("NEXT RING")
 		currentled = 0 
 		if (BytesToSend != 0):
-			PushHID(var_to_bytes(colourtestarray).slice(7, 71))
-			#hid.write(var_to_bytes(colourtestarray).slice(7, 71))
+			PushHID(var_to_bytes(colourtestarray).slice(7, 72))
+			#hid.write(var_to_bytes(colourtestarray).slice(7, 72))
 			BytesToSend = 4
 			
 		PushHID(var_to_bytes(DisplayCommand))
@@ -277,7 +286,7 @@ func _process(_delta: float) -> void:
 			#BytesToSend = BytesToSend + 3
 			#if (BytesToSend > 56):
 				##print(var_to_bytes(colourtestarray))
-				##hid.write(var_to_bytes(colourtestarray).slice(7, 71))
+				##hid.write(var_to_bytes(colourtestarray).slice(7, 72))
 				#BytesToSend = 0
 			#
 			##LEDColourValueR[currentled] = CurrentColourValue.r8
@@ -297,7 +306,7 @@ func _process(_delta: float) -> void:
 		##print("NEXT RING")
 	#currentled = 0 
 	#if (BytesToSend != 0):
-		#hid.write(var_to_bytes(colourtestarray).slice(7, 71))
+		#hid.write(var_to_bytes(colourtestarray).slice(7, 72))
 		#BytesToSend = 0
 	##_DisplayColorScan(1)
 	
