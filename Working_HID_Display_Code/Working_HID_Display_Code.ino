@@ -13,9 +13,7 @@
 
 #define MaxLEDCount 3740
 
-byte LEDDisplay[MaxLEDCount][3]{};
-
-
+byte LEDDisplay[MaxLEDCount][3];
 
 
 
@@ -55,19 +53,18 @@ byte LEDDisplay[MaxLEDCount][3]{};
 
 #define Offset1 0
 #define Offset2 NUM_LEDS1
-#define Offset3 NUM_LEDS1 + NUM_LEDS2
-#define Offset4 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3
-#define Offset5 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3 + NUM_LEDS4
-#define Offset6 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3 + NUM_LEDS4 + NUM_LEDS5
-#define Offset7 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3 + NUM_LEDS4 + NUM_LEDS5 + NUM_LEDS6
-#define Offset8 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3 + NUM_LEDS4 + NUM_LEDS5 + NUM_LEDS6 + NUM_LEDS7
-#define Offset9 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3 + NUM_LEDS4 + NUM_LEDS5 + NUM_LEDS6 + NUM_LEDS7 + NUM_LEDS8
-#define Offset10 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3 + NUM_LEDS4 + NUM_LEDS5 + NUM_LEDS6 + NUM_LEDS7 + NUM_LEDS8 + NUM_LEDS9
-#define Offset11 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3 + NUM_LEDS4 + NUM_LEDS5 + NUM_LEDS6 + NUM_LEDS7 + NUM_LEDS8 + NUM_LEDS9 + NUM_LEDS10
-#define Offset12 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3 + NUM_LEDS4 + NUM_LEDS5 + NUM_LEDS6 + NUM_LEDS7 + NUM_LEDS8 + NUM_LEDS9 + NUM_LEDS10 + NUM_LEDS11
-#define Offset13 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3 + NUM_LEDS4 + NUM_LEDS5 + NUM_LEDS6 + NUM_LEDS7 + NUM_LEDS8 + NUM_LEDS9 + NUM_LEDS10 + NUM_LEDS11 + NUM_LEDS12
-#define Offset14 NUM_LEDS1 + NUM_LEDS2 + NUM_LEDS3 + NUM_LEDS4 + NUM_LEDS5 + NUM_LEDS6 + NUM_LEDS7 + NUM_LEDS8 + NUM_LEDS9 + NUM_LEDS10 + NUM_LEDS11 + NUM_LEDS12 + NUM_LEDS13
-
+#define Offset3 Offset2 + NUM_LEDS2
+#define Offset4 Offset3 + NUM_LEDS3
+#define Offset5 Offset4 + NUM_LEDS4
+#define Offset6 Offset5 + NUM_LEDS5
+#define Offset7 Offset6 + NUM_LEDS6
+#define Offset8 Offset7 + NUM_LEDS7
+#define Offset9 Offset8 + NUM_LEDS8
+#define Offset10 Offset9 + NUM_LEDS9
+#define Offset11 Offset10 + NUM_LEDS10
+#define Offset12 Offset11 + NUM_LEDS11
+#define Offset13 Offset12 + NUM_LEDS12
+#define Offset14 Offset13 + NUM_LEDS13
 
 CRGB leds1[NUM_LEDS1];
 CRGB leds2[NUM_LEDS2];
@@ -89,8 +86,9 @@ CRGB ledsSub[NUM_LEDSSub];
 byte buffer[64];
 
 byte DisplayCode[64];
+
 void setup() {
-  //Serial.begin(9600);
+  Serial.begin(9600);
 
   CLEDController& c1 = FastLED.addLeds<WS2812, 9, GRB>(leds1, NUM_LEDS1);
   CLEDController& c2 = FastLED.addLeds<WS2812, 6, GRB>(leds2, NUM_LEDS2);
@@ -112,7 +110,7 @@ void setup() {
   FastLED.setBrightness(255);
 
   for (int d = 0; d < NUM_LEDSSub; d++) {
-    ledsSub[d] = CRGB(255,255,255);
+    ledsSub[d] = CRGB(255, 255, 255);
   }
 
   for (int c = 0; c < 64; c++) {
@@ -141,14 +139,21 @@ void loop() {
         }
       }
       //Serial.println(c);
-      /*for (int i = 0; i < 64; i++) {
-        Serial.print(buffer[i]);
-        Serial.print(", ");
-      }
-      Serial.println(" ");*/
+      
 
 
     } else {
+
+      //Serial.println(c);
+      for (int i = 0; i < 201; i = i + 3) {
+        Serial.print(LEDDisplay[Offset13-i][0]);
+        Serial.print(", ");
+        Serial.print(LEDDisplay[Offset13-i][1]);
+        Serial.print(", ");
+        Serial.print(LEDDisplay[Offset13-i][2]);
+        Serial.print(" : ");
+      }
+      Serial.println(" ");
 
       //Serial.println("Printing LEDS! ");
 
