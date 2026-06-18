@@ -88,7 +88,7 @@ byte buffer[64];
 byte DisplayCode[64];
 
 void setup() {
-  Serial.begin(9600);
+  //Serial.begin(9600);
 
   CLEDController& c1 = FastLED.addLeds<WS2812, 9, GRB>(leds1, NUM_LEDS1);
   CLEDController& c2 = FastLED.addLeds<WS2812, 6, GRB>(leds2, NUM_LEDS2);
@@ -145,7 +145,7 @@ void loop() {
     } else {
 
       //Serial.println(c);
-      for (int i = 0; i < 201; i = i + 3) {
+      /*for (int i = 0; i < 201; i = i + 3) {
         Serial.print(LEDDisplay[Offset13-i][0]);
         Serial.print(", ");
         Serial.print(LEDDisplay[Offset13-i][1]);
@@ -153,7 +153,7 @@ void loop() {
         Serial.print(LEDDisplay[Offset13-i][2]);
         Serial.print(" : ");
       }
-      Serial.println(" ");
+      Serial.println(" ");*/
 
       //Serial.println("Printing LEDS! ");
 
