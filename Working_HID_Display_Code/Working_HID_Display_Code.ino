@@ -126,7 +126,7 @@ void setup() {
 
 void loop() {
   int n;
-  n = RawHID.recv(buffer, 0);  // 0 timeout = do not wait
+  n = RawHID.recv(buffer, 1);  // 0 timeout = do not wait
   if (n != 0) {
     int c = buffer[0] + (buffer[1] * 256);
     if (buffer[0] != DisplayCode[0] && buffer[1] != DisplayCode[1] && buffer[2] != DisplayCode[2] && buffer[3] != DisplayCode[3] && buffer[4] != DisplayCode[4] && buffer[6] != DisplayCode[6] && buffer[7] != DisplayCode[7] && buffer[8] != DisplayCode[8]) {

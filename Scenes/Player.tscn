@@ -17,20 +17,8 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_megsn"]
 resource_name = "TopCollider"
 custom_solver_bias = 1.0
-radius = 11.0
-height = 102.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_miouo"]
-radius = 8.0
-height = 96.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o3h8g"]
-radius = 15.0
-height = 50.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1e7my"]
-radius = 19.0
-height = 42.0
+radius = 21.0
+height = 110.0
 
 [node name="Player" type="CharacterBody2D" unique_id=758564927 node_paths=PackedStringArray("Submarine", "Collider")]
 motion_mode = 1
@@ -41,7 +29,7 @@ safe_margin = 0.01
 script = ExtResource("1_dewec")
 speed = 30
 Submarine = NodePath("Submarine v2")
-Collider = NodePath("TopCollider")
+Collider = NodePath("Collider")
 
 [node name="Submarine" type="Sprite2D" parent="." unique_id=384198664]
 visible = false
@@ -50,8 +38,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_xhfnw")
 offset = Vector2(-10.25, -145.395)
 
-[node name="TopCollider" type="CollisionShape2D" parent="." unique_id=1264097619]
-position = Vector2(-2, -17)
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1264097619]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_megsn")
 
@@ -95,7 +82,6 @@ scale = Vector2(1.1164066, 1.1164066)
 texture = ExtResource("8_yoq75")
 
 [node name="Submarine v2" type="Sprite2D" parent="." unique_id=1746103143]
-visible = false
 z_index = 2
 y_sort_enabled = true
 scale = Vector2(0.15, 0.15)
@@ -128,19 +114,5 @@ z_index = 3
 z_as_relative = false
 y_sort_enabled = true
 texture = ExtResource("13_miouo")
-
-[node name="BottomCollider" type="CollisionShape2D" parent="." unique_id=589656685]
-position = Vector2(0, 21)
-rotation = 1.5707964
-shape = SubResource("CapsuleShape2D_miouo")
-
-[node name="Left Collider" type="CollisionShape2D" parent="." unique_id=446172058]
-position = Vector2(-48, 1)
-rotation = -3.1415925
-shape = SubResource("CapsuleShape2D_o3h8g")
-
-[node name="RightCollider" type="CollisionShape2D" parent="." unique_id=749706222]
-position = Vector2(45, 3)
-shape = SubResource("CapsuleShape2D_1e7my")
 
 [connection signal="direction_facing_Changed" from="DirectionalPointer" to="." method="_on_directional_pointer_direction_facing_changed"]

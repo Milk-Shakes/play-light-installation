@@ -73,7 +73,10 @@ limits/webrtc/max_channel_in_buffer_kb=2066
 [physics]
 
 2d/run_on_separate_thread=true
+2d/physics_engine="GodotPhysics2D"
 3d/physics_engine="Jolt Physics"
+2d/default_gravity=0.0
+2d/solver/solver_iterations=30
 
 [rendering]
 
