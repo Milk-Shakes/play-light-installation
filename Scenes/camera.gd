@@ -34,7 +34,10 @@ var LEDMaxCount: int
 #var LEDColourValue: Array[int]
 #var LEDColourValue: Array[Vector3i]
 var colourtestarray: PackedByteArray
+var OLDColourTestArray: PackedByteArray
 #var colourtest = Color8(62, 51, 126, 255)
+
+var OLDTestFailed: bool = false
 
 var DisplayCommand: PackedByteArray
 
@@ -79,6 +82,8 @@ func _ready() -> void:
 	#var report_recv = hid.read(64)
 	#var report_recv = hid.read_timeout(64, 10)
 	# And write report data to HID
+	
+	
 	colourtestarray.resize(64)
 	DisplayCommand.resize(64)
 	for i in 64:
@@ -112,6 +117,10 @@ func _ready() -> void:
 	
 	for n in range(NumOfRings):
 		LEDMaxCount = LEDMaxCount + LEDCount[n]
+		
+	OLDColourTestArray.resize(LEDMaxCount+100)
+	for i in LEDMaxCount:
+		OLDColourTestArray.encode_s8(i, 254)
 	
 	ConvertedRadius.resize(NumOfRings)
 	RingAngle.resize(NumOfRings)
@@ -166,10 +175,24 @@ func _DisplayColorScan():
 				colourtestarray.encode_u8(BytesToSend, CurrentColourValue.r8)
 				colourtestarray.encode_u8(BytesToSend+1, CurrentColourValue.g8)
 				colourtestarray.encode_u8(BytesToSend+2, CurrentColourValue.b8)
+				
+				if OLDColourTestArray.decode_s8(currentled+(currentled2*255)+(BytesToSend-4)) != CurrentColourValue.r8:
+					OLDTestFailed = true
+					OLDColourTestArray.encode_s8(currentled+(currentled2*255)+(BytesToSend-4), CurrentColourValue.r8)
+				if OLDColourTestArray.decode_s8(currentled+(currentled2*255)+(BytesToSend-3)) != CurrentColourValue.g8:
+					OLDTestFailed = true
+					OLDColourTestArray.encode_s8(currentled+(currentled2*255)+(BytesToSend-3), CurrentColourValue.g8)
+				if OLDColourTestArray.decode_s8(currentled+(currentled2*255)+(BytesToSend-2)) != CurrentColourValue.b8:
+					OLDTestFailed = true
+					OLDColourTestArray.encode_s8(currentled+(currentled2*255)+(BytesToSend-2), CurrentColourValue.b8)
+				
 				BytesToSend = BytesToSend + 3
 				if (BytesToSend > 63):
 					#print(var_to_bytes(colourtestarray))
-					PushHID(var_to_bytes(colourtestarray).slice(7, 72))
+					if OLDTestFailed == true:
+						PushHID(var_to_bytes(colourtestarray).slice(7, 72))
+					else:
+						OLDTestFailed = false
 					#hid.write(var_to_bytes(colourtestarray).slice(7, 72))
 					BytesToSend = 4
 				
@@ -193,12 +216,17 @@ func _DisplayColorScan():
 			
 			#print("NEXT RING")
 		currentled = 0 
+		currentled2 = 0 
 		if (BytesToSend != 0):
-			PushHID(var_to_bytes(colourtestarray).slice(7, 72))
+			if OLDTestFailed == true:
+				PushHID(var_to_bytes(colourtestarray).slice(7, 72))
+			else:
+				OLDTestFailed = false
 			#hid.write(var_to_bytes(colourtestarray).slice(7, 72))
 			BytesToSend = 4
 			
 		PushHID(var_to_bytes(DisplayCommand))
+		OLDTestFailed = false
 	PrintDisplay = false
 	#pass
 	#server.poll() # Important!
