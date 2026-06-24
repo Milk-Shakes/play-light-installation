@@ -25,8 +25,8 @@ byte LEDDisplay[MaxLEDCount][3];
 #define FASTLED_USES_OBJECTFLED
 
 // Optional define to override the latch delay (microseconds)
-#define FASTLED_OBJECTFLED_LATCH_DELAY 75
-#define FASTLED_OVERCLOCK 1.5
+//#define FASTLED_OBJECTFLED_LATCH_DELAY 75
+//#define FASTLED_OVERCLOCK 1.5
 #include "FastLED.h"
 
 #define VENDOR_ID 0x16C0
