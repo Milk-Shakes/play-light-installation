@@ -26,8 +26,8 @@ var LEDMaxCount: int
 @onready var RingAngle: Array[float]
 
 @onready var ViewportHeight: float = get_viewport_rect().size.y
-@onready var ViewportXCenter: int = (get_viewport_rect().size.x/2)
-@onready var ViewportYCenter: int = (ViewportHeight/2)
+@onready var ViewportXCenter = int(get_viewport_rect().size.x/2)
+@onready var ViewportYCenter = int(ViewportHeight/2)
 
 @onready var ScaleConversionFactor: float = (((ViewportHeight / 2)-10) / Radius.max())
 
@@ -53,6 +53,7 @@ var thread2: Thread
 var PrintDisplay = false
 
 var hid = Hid.new()
+var Connected = false
 
 
 
@@ -73,6 +74,11 @@ func _ready() -> void:
 	
 	# Open by vender id and product id
 	hid.open(5824, 1158)
+	if hid.open(5824, 1158) == true:
+		Connected = true
+		#print("Teensy found! Pushing display data")
+	#else:
+		#print("Teensy not found. disabled HID write")
 	# Or open by device path
 	#hid.open_path(path)
 	# Or open by serial number
@@ -144,12 +150,14 @@ func _ready() -> void:
 	#print("Data from ", port, ": ", data.get_string_from_ascii())
 #	pass
 
-#unc _on_disconnect(port: String):
+#func _on_disconnect(port: String):
 #	print("Lost connection to ", port)
 
 func PushHID(DataToSend:PackedByteArray):
-	hid.write(DataToSend)
-	#pass
+	if Connected == true:
+		hid.write(DataToSend)
+	else:
+		pass
 
 func _DisplayColorScan():
 	if (PrintDisplay == true):

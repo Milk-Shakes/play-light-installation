@@ -23,7 +23,7 @@ func _on_directional_pointer_direction_facing_changed(pointer_angle: Variant) ->
 
 
 
-func _on_cave_body_entered(body: Node2D) -> void:
+func _on_cave_body_entered(_body: Node2D) -> void:
 	if (move_direction.x > 5 && move_direction.y < 5 && move_direction.y > -5):
 		$"Submarine v2/SubmarineV2RedRear".visible = true
 	else: if (move_direction.x < -5 && move_direction.y < 5 && move_direction.y > -5):
@@ -82,7 +82,7 @@ func _input(event):
 	#print(current_speed)
 	## setting the current acceleration depending on how long the up or down key is held with a slow decay
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 	#if ($CollisionShape2D.)
 	if (current_speed > 9):
@@ -91,12 +91,12 @@ func _physics_process(delta):
 		$"Submarine v2/SubmarineV2RedBottom".visible = false
 		$"Submarine v2/SubmarineV2RedFront".visible = false
 	
-	if (current_speed < ((CurrentSpeed * (speed/3))-acceleration)):
+	if (current_speed < ((CurrentSpeed * (speed/3.0))-acceleration)):
 		current_speed = current_speed + acceleration
-	else: if (current_speed > ((CurrentSpeed * (speed/3))+acceleration)):
+	else: if (current_speed > ((CurrentSpeed * (speed/3.0))+acceleration)):
 		current_speed = current_speed - acceleration
 	else:
-		current_speed = CurrentSpeed * (speed/3)
+		current_speed = CurrentSpeed * (speed/3.0)
 	move_direction = -(Vector2(sin(deg_to_rad(-player_move_direction)) * current_speed, cos(deg_to_rad(-player_move_direction)) * current_speed)) ## applying a vector to the velocity based on the angle recieved from direction_pointer
 	velocity = move_direction
 	#get_input()

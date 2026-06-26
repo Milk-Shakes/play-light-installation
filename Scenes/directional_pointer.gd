@@ -17,7 +17,7 @@ func _ready() -> void:
 	rotation_degrees = pointer_rotation
 	direction_facing_Changed.emit(rotation_degrees)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if (Input.get_axis("LEFT", "RIGHT") > 0 or Input.get_axis("LEFT", "RIGHT") < 0 && Current_Rotation_Speed <= Max_Rotation_Speed):
 		Current_Rotation_Speed = Current_Rotation_Speed + (Input.get_axis("LEFT", "RIGHT") * Rotation_Acceleration)
 	else: if (Current_Rotation_Speed - Rotation_Decceleration > 0):
