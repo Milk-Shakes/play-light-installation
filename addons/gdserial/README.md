@@ -33,21 +33,8 @@ func _ready():
 
 ### Async usage (GdSerialManager)
 
-```gdscript
-extends Node
 
-var manager: GdSerialManager
 
-func _ready():
-    manager = GdSerialManager.new()
-    manager.data_received.connect(func(port, data): 
-        print("Data: ", data.get_string_from_utf8())
-    )
-    manager.open_port("COM3", 9600, 1000)
-
-func _process(_delta):
-    manager.poll_events()
-```
 
 ## API Reference
 

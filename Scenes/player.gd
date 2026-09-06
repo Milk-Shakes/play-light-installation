@@ -16,6 +16,32 @@ var CurrentSpeed = int(0)
 
 var current_speed = 0
 
+var manager: GdSerialManager
+
+func _process(_delta: float) -> void:
+	manager.poll_events()
+
+func _on_data(port: String, data: PackedByteArray):
+	print("Data from ", port, ": ", data.get_string_from_utf8())
+
+func _on_disconnect(port: String):
+	print("Lost connection to ", port)
+
+func _ready() -> void:
+	
+	manager = GdSerialManager.new()
+	manager.data_received.connect(_on_data)
+	manager.port_disconnected.connect(_on_disconnect)
+
+	# mode is optional; defaults to MODE_RAW. Use the constants for clarity:
+	# MODE_RAW (emit all chunks), MODE_LINE_BUFFERED (wait for \n), MODE_CUSTOM_DELIMITER
+	if manager.open("COM5", 115200, 1000):  # RAW (default)
+		manager.set_delimiter("COM5", 0xFF)
+		print("Connected to COM5")
+
+
+
+
 func _on_directional_pointer_direction_facing_changed(pointer_angle: Variant) -> void:
 	player_move_direction = pointer_angle
 	#print(player_move_direction)
