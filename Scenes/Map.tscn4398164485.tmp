@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dijcocah11hrg"]
+
+[ext_resource type="PackedScene" uid="uid://do41qviptco1h" path="res://Scenes/Player.tscn" id="1_s486e"]
+[ext_resource type="PackedScene" uid="uid://358urckctii5" path="res://Scenes/Camera.tscn" id="2_7yn8b"]
+[ext_resource type="PackedScene" uid="uid://hbq3ibymox7a" path="res://Scenes/cave_V2.tscn" id="3_etk83"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_etk83"]
+
+[node name="Game" type="Node2D" unique_id=686134835]
+
+[node name="Player" parent="." unique_id=758564927 instance=ExtResource("1_s486e")]
+position = Vector2(-9, 0)
+disable_mode = 2
+
+[node name="Camera2D" parent="Player" unique_id=1068830333 instance=ExtResource("2_7yn8b")]
+zoom = Vector2(1, 1)
+limit_enabled = false
+BaudRate = 115200
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1091545404]
+texture = SubResource("CanvasTexture_etk83")
+
+[node name="Cave" parent="." unique_id=1279956684 instance=ExtResource("3_etk83")]
+position = Vector2(-127, -254)
+scale = Vector2(2, 2)
+
+[connection signal="body_entered" from="Cave" to="Player" method="_on_cave_body_entered"]
