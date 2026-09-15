@@ -165,5 +165,5 @@ func _physics_process(_delta):
 
 
 func _on_camera_2d_hid_done(_done: Variant) -> void:
-	manager.write("COM5", HIDDone)
-	#pass
+	#manager.write("COM5", HIDDone)
+	pass

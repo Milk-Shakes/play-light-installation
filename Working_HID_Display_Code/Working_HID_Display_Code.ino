@@ -110,7 +110,7 @@ void setup() {
   FastLED.setBrightness(255);
 
   for (int d = 0; d < NUM_LEDSSub; d++) {
-    ledsSub[d] = CRGB(255, 255, 255);
+    ledsSub[d] = CRGB(150, 150, 150);
   }
 
   for (int c = 0; c < 64; c++) {

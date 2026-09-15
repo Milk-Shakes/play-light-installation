@@ -43,7 +43,6 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_megsn")
 
 [node name="DirectionalPointer" type="Sprite2D" parent="." unique_id=876545931]
-visible = false
 z_index = 5
 z_as_relative = false
 y_sort_enabled = true
@@ -52,7 +51,6 @@ texture = ExtResource("3_5ixxa")
 offset = Vector2(0, -86)
 
 [node name="LowSpeed" type="Sprite2D" parent="DirectionalPointer" unique_id=35305922]
-visible = false
 z_index = 7
 z_as_relative = false
 y_sort_enabled = true

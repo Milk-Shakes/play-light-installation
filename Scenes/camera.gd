@@ -136,10 +136,10 @@ func _ready() -> void:
 func PushHID(DataToSend:PackedByteArray):
 	if Connected == true:
 		hid.write(DataToSend)
-		call_deferred("_HID_Pushed")
+		#call_deferred("_HID_Pushed")
 	else:
-		call_deferred("_HID_Pushed")
-		#pass
+		#call_deferred("_HID_Pushed")
+		pass
 		
 
 func _HID_Pushed():
