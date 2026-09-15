@@ -26,6 +26,7 @@ var RequestedDirection: int
 @onready var HighSpeed = $DirectionalPointer/HighSpeed
 
 var manager: GdSerialManager
+var HIDDone: PackedByteArray
 
 func _process(_delta: float) -> void:
 	manager.poll_events()
@@ -50,7 +51,8 @@ func _ready() -> void:
 	manager = GdSerialManager.new()
 	manager.data_received.connect(_on_data)
 	manager.port_disconnected.connect(_on_disconnect)
-
+	
+	HIDDone.append(1)
 	# mode is optional; defaults to MODE_RAW. Use the constants for clarity:
 	# MODE_RAW (emit all chunks), MODE_LINE_BUFFERED (wait for \n), MODE_CUSTOM_DELIMITER
 	if manager.open_buffered("COM5", 115200, 1000, 1):
@@ -153,10 +155,15 @@ func _physics_process(_delta):
 			current_speed = CurrentSpeed * (speed/3.0)
 	move_direction = -(Vector2(sin(deg_to_rad(-player_move_direction)) * current_speed, cos(deg_to_rad(-player_move_direction)) * current_speed)) ## applying a vector to the velocity based on the angle recieved from direction_pointer
 	velocity = move_direction
-	print(PlayerCrashed)
+	#print(PlayerCrashed)
 	#get_input()
 	move_and_slide()
 	if (move_and_slide() == true):
 		Submarine.visible = false
 		current_speed = 0
 		CurrentSpeed = 0
+
+
+func _on_camera_2d_hid_done(_done: Variant) -> void:
+	manager.write("COM5", HIDDone)
+	#pass

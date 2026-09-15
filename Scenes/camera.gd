@@ -17,6 +17,8 @@ extends Camera2D
 #var peers = []
 #var CurrentPacket = int()
 
+signal HID_Done(done)
+
 var RecievedMessage
 
 var LEDMaxCount: int
@@ -134,8 +136,15 @@ func _ready() -> void:
 func PushHID(DataToSend:PackedByteArray):
 	if Connected == true:
 		hid.write(DataToSend)
+		call_deferred("_HID_Pushed")
 	else:
-		pass
+		call_deferred("_HID_Pushed")
+		#pass
+		
+
+func _HID_Pushed():
+	HID_Done.emit(0)
+	#pass
 
 func _DisplayColorScan():
 	if (PrintDisplay == true):
