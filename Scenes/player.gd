@@ -32,7 +32,7 @@ func _process(_delta: float) -> void:
 	manager.poll_events()
 
 func _on_data(port: String, data: PackedByteArray):
-	#print("Data from ", port, ": ", data.get_string_from_ascii(), "		")
+	##print("Data from ", port, ": ", data.get_string_from_ascii(), "		")
 	RequestedDirection = (((data[0]-48) * 1000)-1000) + ((data[1]-48)*100)+ ((data[2]-48)*10) + (data[3]-48)
 	RequestedSpeedMode = data[4]-48
 	CurrentSpeed = RequestedSpeedMode
@@ -40,7 +40,7 @@ func _on_data(port: String, data: PackedByteArray):
 		PlayerCrashed = false
 	player_move_direction = remap(RequestedDirection, 0, 4095, 0, 360)
 	Pointer.rotation_degrees = player_move_direction
-	#print(RequestedDirection, "		", player_move_direction)
+	##print(RequestedDirection, "		", player_move_direction)
 	
 
 func _on_disconnect(port: String):
@@ -53,10 +53,10 @@ func _ready() -> void:
 	manager.port_disconnected.connect(_on_disconnect)
 	
 	HIDDone.append(1)
-	# mode is optional; defaults to MODE_RAW. Use the constants for clarity:
-	# MODE_RAW (emit all chunks), MODE_LINE_BUFFERED (wait for \n), MODE_CUSTOM_DELIMITER
+	## mode is optional; defaults to MODE_RAW. Use the constants for clarity:
+	## MODE_RAW (emit all chunks), MODE_LINE_BUFFERED (wait for \n), MODE_CUSTOM_DELIMITER
 	if manager.open_buffered("COM5", 115200, 1000, 1):
-		#manager.set_delimiter("COM5",202)
+		##manager.set_delimiter("COM5",202)
 		print("Connected to COM5")
 
 
@@ -159,7 +159,7 @@ func _physics_process(_delta):
 	#get_input()
 	move_and_slide()
 	if (move_and_slide() == true):
-		Submarine.visible = false
+		#Submarine.visible = false
 		current_speed = 0
 		CurrentSpeed = 0
 

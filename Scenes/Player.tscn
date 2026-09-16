@@ -19,7 +19,7 @@ custom_solver_bias = 1.0
 radius = 21.0
 height = 110.0
 
-[node name="Player" type="CharacterBody2D" unique_id=758564927 node_paths=PackedStringArray("Submarine", "Collider")]
+[node name="Player" type="CharacterBody2D" unique_id=758564927 node_paths=PackedStringArray("Collider")]
 motion_mode = 1
 slide_on_ceiling = false
 floor_stop_on_slope = false
@@ -27,7 +27,6 @@ floor_block_on_wall = false
 safe_margin = 0.01
 script = ExtResource("1_dewec")
 speed = 30
-Submarine = NodePath("Submarine v2")
 Collider = NodePath("Collider")
 
 [node name="Submarine" type="Sprite2D" parent="." unique_id=384198664]
@@ -59,14 +58,12 @@ scale = Vector2(1.1250005, 1.1250005)
 texture = ExtResource("5_nn08x")
 
 [node name="MediumSpeed" type="Sprite2D" parent="DirectionalPointer" unique_id=1043995923]
-visible = false
 z_index = 6
 position = Vector2(-7.6293945e-06, -144)
 scale = Vector2(0.9000001, 0.9000001)
 texture = ExtResource("7_bhhdu")
 
 [node name="HighSpeed" type="Sprite2D" parent="DirectionalPointer" unique_id=1464707494]
-visible = false
 z_index = 6
 z_as_relative = false
 y_sort_enabled = true
@@ -75,7 +72,6 @@ scale = Vector2(0.9000001, 0.9000001)
 texture = ExtResource("8_megsn")
 
 [node name="No Speed" type="Sprite2D" parent="DirectionalPointer" unique_id=809230137]
-visible = false
 z_index = 6
 z_as_relative = false
 y_sort_enabled = true
@@ -84,7 +80,7 @@ scale = Vector2(1.1164066, 1.1164066)
 texture = ExtResource("8_yoq75")
 
 [node name="Submarine v2" type="Sprite2D" parent="." unique_id=1746103143]
-visible = false
+modulate = Color(1, 1, 1, 0.007843138)
 z_index = 2
 y_sort_enabled = true
 scale = Vector2(0.15, 0.15)
