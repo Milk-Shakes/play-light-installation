@@ -9,6 +9,7 @@ var move_direction = Vector2()
 
 @export var speed = 100
 @export var acceleration = 2
+@export var DirectionOffsetDeg: int = 0
 
 @export var Submarine: Node
 @export var Collider: Node
@@ -164,6 +165,6 @@ func _physics_process(_delta):
 		CurrentSpeed = 0
 
 
-func _on_camera_2d_hid_done(_done: Variant) -> void:
-	#manager.write("COM5", HIDDone)
-	pass
+#func _on_camera_2d_hid_done(_done: Variant) -> void:
+#	#manager.write("COM5", HIDDone)
+#	pass

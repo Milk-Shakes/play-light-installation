@@ -142,9 +142,9 @@ func PushHID(DataToSend:PackedByteArray):
 		pass
 		
 
-func _HID_Pushed():
-	HID_Done.emit(0)
-	#pass
+#func _HID_Pushed():
+#	HID_Done.emit(0)
+#	#pass
 
 func _DisplayColorScan():
 	if (PrintDisplay == true):
