@@ -132,7 +132,7 @@ void loop() {
     if (buffer[0] != DisplayCode[0] && buffer[1] != DisplayCode[1] && buffer[2] != DisplayCode[2] && buffer[3] != DisplayCode[3] && buffer[4] != DisplayCode[4] && buffer[6] != DisplayCode[6] && buffer[7] != DisplayCode[7] && buffer[8] != DisplayCode[8]) {
 
       for (int i = 1; i < 21; i = i + 1) {
-        if (c + i - 1 < MaxLEDCount) {
+        if (c + (i - 1) < MaxLEDCount) {
           LEDDisplay[c + i - 1][0] = buffer[1 + (i * 3)];
           LEDDisplay[c + i - 1][1] = buffer[2 + (i * 3)];
           LEDDisplay[c + i - 1][2] = buffer[3 + (i * 3)];

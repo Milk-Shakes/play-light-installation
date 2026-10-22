@@ -64,6 +64,7 @@ editor_description = "Camera for sonar effect"
 show_behind_parent = true
 zoom = Vector2(1.5, 1.5)
 script = ExtResource("1_tsbx5")
+LEDCount = Array[int]([63, 94, 126, 157, 189, 220, 251, 283, 314, 346, 377, 406, 440, 471])
 FPSCap = 60
 BaudRate = 57600
 
