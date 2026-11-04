@@ -261,5 +261,6 @@ texture = ExtResource("4_qq8yk")
 shape = SubResource("WorldBoundaryShape2D_qq8yk")
 
 [node name="WIN" type="CollisionShape2D" parent="." index="14" unique_id=1877575808]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(133, 3207)
 shape = SubResource("CircleShape2D_qq8yk")

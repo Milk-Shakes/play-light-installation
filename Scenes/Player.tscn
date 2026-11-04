@@ -17,8 +17,8 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_megsn"]
 resource_name = "TopCollider"
 custom_solver_bias = 1.0
-radius = 21.0
-height = 110.0
+radius = 19.0
+height = 92.0
 
 [node name="Player" type="CharacterBody2D" unique_id=758564927 node_paths=PackedStringArray("Collider")]
 motion_mode = 1
@@ -38,7 +38,6 @@ texture = ExtResource("1_xhfnw")
 offset = Vector2(-10.25, -145.395)
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=1264097619]
-visible = false
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_megsn")
 
