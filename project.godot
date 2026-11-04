@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=512
 window/size/viewport_height=512
+window/size/resizable=false
 window/stretch/aspect="ignore"
 window/vsync/vsync_mode=0
 
@@ -69,6 +70,7 @@ limits/webrtc/max_channel_in_buffer_kb=2066
 [physics]
 
 2d/run_on_separate_thread=true
+common/physics_jitter_fix=0.0
 2d/physics_engine="GodotPhysics2D"
 3d/physics_engine="Jolt Physics"
 2d/default_gravity=0.0

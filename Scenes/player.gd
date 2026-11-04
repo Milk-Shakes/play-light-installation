@@ -69,8 +69,13 @@ func _ready() -> void:
 #	## recieving the angle from the directional pointer node
 
 
-
 func _on_cave_body_entered(_body: Node2D) -> void:
+	
+	if (get_last_slide_collision().get_collider_id() == $WIN.get_instance_id()):
+		get_tree().reload_current_scene()
+		#pass
+		
+	
 	if (move_direction.x > 5 && move_direction.y < 5 && move_direction.y > -5):
 		#$"Submarine v2/SubmarineV2RedRear".visible = true
 		pass
@@ -133,12 +138,13 @@ func _on_cave_body_entered(_body: Node2D) -> void:
 		#$DirectionalPointer/MediumSpeed.visible = true
 		#$DirectionalPointer/HighSpeed.visible = true
 
-	#current_speed = (CurrentSpeed * (speed/3))
+#	current_speed = (CurrentSpeed * (speed/3))
 	#print(current_speed)
 	## setting the current acceleration depending on how long the up or down key is held with a slow decay
 
 func _physics_process(_delta):
 	
+
 	#if ($CollisionShape2D.)
 	if (current_speed > 9):
 		#$"Submarine v2/SubmarineV2RedTop".visible = false
@@ -159,6 +165,7 @@ func _physics_process(_delta):
 	#print(PlayerCrashed)
 	#get_input()
 	move_and_slide()
+	position.y = max(position.y, -170)
 	if (move_and_slide() == true):
 		#Submarine.visible = false
 		current_speed = 0
