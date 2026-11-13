@@ -79,4 +79,4 @@ common/physics_jitter_fix=0.0
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+environment/defaults/default_clear_color=Color(0.288518, 0.28851798, 0.28851798, 1)

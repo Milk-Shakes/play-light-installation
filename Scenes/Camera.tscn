@@ -111,3 +111,7 @@ z_as_relative = false
 y_sort_enabled = true
 scale = Vector2(0.13, 0.13)
 texture = ExtResource("4_acvpo")
+
+[node name="HIDReconnect" type="Timer" parent="." unique_id=152741351]
+
+[connection signal="timeout" from="HIDReconnect" to="." method="_on_hid_reconnect_timeout"]

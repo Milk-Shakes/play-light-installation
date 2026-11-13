@@ -17,7 +17,7 @@ extends Camera2D
 #var peers = []
 #var CurrentPacket = int()
 
-signal HID_Done(done)
+#signal HID_Done(done)
 
 var RecievedMessage
 
@@ -52,17 +52,17 @@ var SceneTexture: Image
 var thread1: Thread
 var thread2: Thread
 
-var PrintDisplay = false
+var PrintDisplay:bool = false
 
 var hid = Hid.new()
-var Connected = false
-
+var HIDConnected:bool = false
+@export var HIDReconnectDelay:float = 10.0
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
-# List all connected HID devices.
+# List all HIDConnected HID devices.
 	#var devices = Hid.list_devices()
 	#print(devices)
 
@@ -70,10 +70,12 @@ func _ready() -> void:
 	# Open by vender id and product id
 	hid.open(5824, 1158)
 	if hid.open(5824, 1158) == true:
-		Connected = true
+		HIDConnected = true
 		print("Teensy found! Pushing display data")
 	else:
 		print("Teensy not found. disabled HID write")
+		HIDConnected = false
+		
 	# Or open by device path
 	#hid.open_path(path)
 	# Or open by serial number
@@ -134,7 +136,7 @@ func _ready() -> void:
 #	print("Lost connection to ", port)
 
 func PushHID(DataToSend:PackedByteArray):
-	if Connected == true:
+	if HIDConnected == true:
 		hid.write(DataToSend)
 		#call_deferred("_HID_Pushed")
 	else:
@@ -210,14 +212,27 @@ func _DisplayColorScan():
 	PrintDisplay = false
 	
 
-
+func _on_hid_reconnect_timeout() -> void:
+	print("HID timeout")
+	hid.open(5824, 1158)
+	if hid.open(5824, 1158) == true:
+		HIDConnected = true
+		print("Teensy found")
+		$HIDReconnect.stop()
+	#pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	
+	if (HIDConnected == false and $HIDReconnect.is_stopped() == true):
+		$HIDReconnect.start(HIDReconnectDelay)
+		#pass
+		
 	#SceneTexture = get_viewport().get_texture().get_image()
 	PrintDisplay = true
 	_DisplayColorScan()
+
+
+
 func _exit_tree():
 	thread1.wait_to_finish()
 	thread2.wait_to_finish()

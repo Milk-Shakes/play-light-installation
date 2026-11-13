@@ -8,9 +8,10 @@
 
 [node name="Game" type="Node2D" unique_id=686134835]
 
-[node name="Player" parent="." unique_id=758564927 instance=ExtResource("1_s486e")]
+[node name="Player" parent="." unique_id=758564927 node_paths=PackedStringArray("WinFade") instance=ExtResource("1_s486e")]
 position = Vector2(-9, 0)
 disable_mode = 2
+WinFade = NodePath("../Cave")
 
 [node name="Camera2D" parent="Player" unique_id=1068830333 instance=ExtResource("2_7yn8b")]
 zoom = Vector2(1, 1)
@@ -24,5 +25,4 @@ texture = SubResource("CanvasTexture_etk83")
 position = Vector2(-127, -254)
 scale = Vector2(2, 2)
 
-[connection signal="HID_Done" from="Player/Camera2D" to="Player" method="_on_camera_2d_hid_done"]
 [connection signal="body_entered" from="Cave" to="Player" method="_on_cave_body_entered"]

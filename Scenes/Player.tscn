@@ -29,6 +29,8 @@ safe_margin = 0.01
 script = ExtResource("1_dewec")
 speed = 30
 Collider = NodePath("Collider")
+WINFadeTime = 10.0
+LOSEFadeTime = 5.0
 
 [node name="Submarine" type="Sprite2D" parent="." unique_id=384198664]
 visible = false
@@ -119,3 +121,22 @@ visible = false
 position = Vector2(-4, -2.0000038)
 scale = Vector2(1.1601307, 1.1601307)
 texture = ExtResource("13_o3h8g")
+
+[node name="COMReconnect" type="Timer" parent="." unique_id=2054189754]
+wait_time = 10.0
+ignore_time_scale = true
+
+[node name="LOSETimer" type="Timer" parent="." unique_id=306091850]
+
+[node name="WINTimer" type="Timer" parent="." unique_id=16861813]
+
+[node name="WINFadeIn" type="Sprite2D" parent="." unique_id=298132079]
+modulate = Color(1, 1, 1, 0)
+top_level = true
+position = Vector2(-24, -258)
+scale = Vector2(91.97142, 39.172222)
+texture = ExtResource("5_nn08x")
+
+[connection signal="timeout" from="COMReconnect" to="." method="_on_com_reconnect_timeout"]
+[connection signal="timeout" from="LOSETimer" to="." method="_on_lose_timer_timeout"]
+[connection signal="timeout" from="WINTimer" to="." method="_on_win_timer_timeout"]

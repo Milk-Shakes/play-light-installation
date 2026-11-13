@@ -13,6 +13,17 @@ var move_direction = Vector2()
 
 @export var Submarine: Node
 @export var Collider: Node
+@export var WinFade: Node
+
+var GameWon:bool = false
+@export var WINFadeTime:float = 30.0
+var GameWinTimer:float = 0
+var GameWinAlpha:float = 0
+
+var GameLost:bool = false
+@export var LOSEFadeTime:float = 30.0
+var GameLoseTimer:float = 0
+var GameLoseAlpha:float = 0
 
 var CurrentSpeed = int(0)
 
@@ -29,10 +40,13 @@ var RequestedDirection: int
 var manager: GdSerialManager
 var HIDDone: PackedByteArray
 
+var COMConnected:bool = false
+@export var COMReconnectDelay:float = 10.0
+
 func _process(_delta: float) -> void:
 	manager.poll_events()
 
-func _on_data(port: String, data: PackedByteArray):
+func _on_data(_port: String, data: PackedByteArray):
 	##print("Data from ", port, ": ", data.get_string_from_ascii(), "		")
 	RequestedDirection = (((data[0]-48) * 1000)-1000) + ((data[1]-48)*100)+ ((data[2]-48)*10) + (data[3]-48)
 	RequestedSpeedMode = data[4]-48
@@ -45,9 +59,13 @@ func _on_data(port: String, data: PackedByteArray):
 	
 
 func _on_disconnect(port: String):
+	COMConnected = false
 	print("Lost connection to ", port)
 
 func _ready() -> void:
+	#$WINTimer.start(WINFadeTime/300)
+	#$LOSETimer.start(LOSEFadeTime/300)
+	$WINFadeIn.modulate = Color(0.0, 0, 0, 0.0)
 	
 	manager = GdSerialManager.new()
 	manager.data_received.connect(_on_data)
@@ -58,7 +76,12 @@ func _ready() -> void:
 	## MODE_RAW (emit all chunks), MODE_LINE_BUFFERED (wait for \n), MODE_CUSTOM_DELIMITER
 	if manager.open_buffered("COM5", 115200, 1000, 1):
 		##manager.set_delimiter("COM5",202)
+		COMConnected = true
 		print("Connected to COM5")
+	else:
+		print("COM5 timeout")
+		
+	
 
 
 
@@ -72,7 +95,9 @@ func _ready() -> void:
 func _on_cave_body_entered(_body: Node2D) -> void:
 	
 	if (get_last_slide_collision().get_collider_id() == $WIN.get_instance_id()):
-		get_tree().reload_current_scene()
+		if (GameWon == false):
+			GameWon = true
+			$WINTimer.start(WINFadeTime/300)
 		#pass
 		
 	
@@ -142,9 +167,24 @@ func _on_cave_body_entered(_body: Node2D) -> void:
 	#print(current_speed)
 	## setting the current acceleration depending on how long the up or down key is held with a slow decay
 
-func _physics_process(_delta):
+func _on_com_reconnect_timeout() -> void:
+	print("COM5 timeout")
+	if manager.open_buffered("COM5", 115200, 1000, 1):
+		##manager.set_delimiter("COM5",202)
+		COMConnected = true
+		print("Connected to COM5")
+		$COMReconnect.stop()
+		
+	#pass
 	
 
+
+func _physics_process(_delta):
+	
+	if (COMConnected == false and $COMReconnect.is_stopped() == true):
+		$COMReconnect.start(COMReconnectDelay)
+		#pass
+	
 	#if ($CollisionShape2D.)
 	if (current_speed > 9):
 		#$"Submarine v2/SubmarineV2RedTop".visible = false
@@ -165,7 +205,23 @@ func _physics_process(_delta):
 	#print(PlayerCrashed)
 	#get_input()
 	move_and_slide()
+	
+	if (position.x < -630):
+		if (GameLost == false):
+			GameLost = true
+			$LOSETimer.start(LOSEFadeTime/300)
+	if (position.x > 1200):
+		if (GameLost == false):
+			GameLost = true
+			$LOSETimer.start(LOSEFadeTime/300)
+		
+	if (position.y > 7200):
+		if (GameLost == false):
+			GameLost = true
+			$LOSETimer.start(LOSEFadeTime/300)
 	position.y = max(position.y, -170)
+		
+		
 	if (move_and_slide() == true):
 		#Submarine.visible = false
 		current_speed = 0
@@ -175,3 +231,27 @@ func _physics_process(_delta):
 #func _on_camera_2d_hid_done(_done: Variant) -> void:
 #	#manager.write("COM5", HIDDone)
 #	pass
+
+
+func _on_win_timer_timeout() -> void:
+	GameWinTimer = GameWinTimer + (WINFadeTime/300)
+	print(GameWinTimer)
+	if (GameWinAlpha<1.0):
+		GameWinAlpha = remap(GameWinTimer, 0.0, WINFadeTime, 0.0, 1.0)
+	$WINFadeIn.modulate = Color(1.0, 1.0, 0, GameWinAlpha)
+	if (GameWinTimer > WINFadeTime):
+		manager.close("COM5")
+		get_tree().reload_current_scene()
+	#pass # Replace with function body.
+
+
+func _on_lose_timer_timeout() -> void:
+	GameLoseTimer = GameLoseTimer + (LOSEFadeTime/300)
+	print(GameLoseTimer)
+	if (GameLoseAlpha<1.0):
+		GameLoseAlpha = remap(GameLoseTimer, 0.0, LOSEFadeTime, 0.0, 1.0)
+	$WINFadeIn.modulate = Color(1.0, 0, 0, GameLoseAlpha)
+	if (GameLoseTimer > LOSEFadeTime):
+		manager.close("COM5")
+		get_tree().reload_current_scene()
+	#pass # Replace with function body.
